@@ -3,180 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio | Lê Phương Liên - Marketing & Truyền thông</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #0F4C3A; /* Màu xanh lá chuẩn của HSB */
-            --secondary: #D4AF37; /* Màu vàng gold sang trọng */
-            --bg-light: #F8F9FA;
-            --text-dark: #333333;
-            --text-light: #666666;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { color: var(--text-dark); line-height: 1.6; background-color: var(--bg-light); scroll-behavior: smooth; }
-        
-        /* Navigation */
-        nav { position: fixed; top: 0; width: 100%; background: white; padding: 1rem 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
-        nav h2 { color: var(--primary); font-size: 1.5rem; }
-        nav ul { list-style: none; display: flex; gap: 20px; }
-        nav a { text-decoration: none; color: var(--text-dark); font-weight: 600; transition: color 0.3s; }
-        nav a:hover { color: var(--secondary); }
-
-        /* Hero Section */
-        header { padding: 120px 5% 80px; background: linear-gradient(135deg, var(--primary), #1a7a5c); color: white; text-align: center; }
-        header h1 { font-size: 3rem; margin-bottom: 10px; }
-        header p { font-size: 1.2rem; margin-bottom: 20px; font-weight: 300; }
-        .hero-tags span { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; margin: 0 5px; font-size: 0.9rem; }
-
-        /* Sections */
-        section { padding: 80px 5%; max-width: 1200px; margin: 0 auto; }
-        .section-title { text-align: center; margin-bottom: 50px; color: var(--primary); font-size: 2.2rem; position: relative; }
-        .section-title::after { content: ''; width: 60px; height: 4px; background: var(--secondary); display: block; margin: 10px auto 0; border-radius: 2px; }
-
-        /* Cards Layout */
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .card { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); transition: transform 0.3s; }
-        .card:hover { transform: translateY(-5px); }
-        .card h3 { color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-        .card i { color: var(--secondary); font-size: 1.5rem; }
-        .card img { width: 100%; border-radius: 5px; margin: 15px 0; border: 1px solid #eee; }
-
-        /* Specific Highlight Blocks */
-        .highlight-box { background: #e8f4f0; padding: 20px; border-left: 4px solid var(--primary); margin: 15px 0; border-radius: 0 5px 5px 0; }
-        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-        .comparison-table th, .comparison-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        .comparison-table th { background-color: var(--primary); color: white; }
-
-        /* Footer */
-        footer { background: var(--primary); color: white; text-align: center; padding: 30px 5%; margin-top: 50px; }
-    </style>
+    <meta name="description" content="E-Portfolio Tổng Hợp: Kỹ Năng Số & Ứng Dụng AI - Lê Phương Liên - HSB ĐHQGHN">
+    <title>E-Portfolio | Lê Phương Liên - Marketing & Truyền thông | HSB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <canvas id="particles-canvas"></canvas>
 
-    <nav>
-        <h2>LPL Portfolio.</h2>
-        <ul>
-            <li><a href="#gioi-thieu">Giới thiệu</a></li>
-            <li><a href="#du-an">Dự án Kỹ thuật số</a></li>
-            <li><a href="#tong-ket">Tổng kết</a></li>
-        </ul>
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">
+                <span class="logo-icon">L</span>
+                <span class="logo-text">Phương<span class="accent">Liên</span></span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="#hero" class="nav-link active">Giới thiệu</a>
+                <a href="#projects" class="nav-link">Dự án</a>
+                <a href="#stats" class="nav-link">Thành tựu</a>
+                <a href="#reflection" class="nav-link">Tổng kết</a>
+            </div>
+            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
     </nav>
 
-    <header id="gioi-thieu">
-        <h1>Lê Phương Liên</h1>
-        <p>Sinh viên Marketing và Truyền thông | Trường Quản trị và Kinh doanh (HSB) - ĐHQGHN</p>
-        <div class="hero-tags">
-            <span>MSV: 25080089</span>
-            <span>Lớp: MAC 6A - HSB</span>
-            <span>Digital Skills</span>
-            <span>AI Application</span>
-        </div>
-        <p style="margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.8;">
-            Chào mừng đến với Digital Portfolio của tôi! Đây là không gian tôi lưu trữ, hệ thống hóa và trình bày các kỹ năng số đã học. Mục tiêu của tôi không chỉ là biết cách sử dụng công cụ, mà là <strong>tư duy tối ưu hóa quy trình làm việc, ứng dụng trí tuệ nhân tạo có đạo đức và phát triển bản thân</strong> trong kỷ nguyên số.
-        </p>
-    </header>
-
-    <section id="du-an">
-        <h2 class="section-title">Hồ sơ Dự án & Kỹ năng</h2>
-        
-        <div class="grid-container">
-            <div class="card">
-                <h3><i class="fas fa-folder-tree"></i> NV 1: Quản lý dữ liệu khoa học</h3>
-                <p><strong>Mục tiêu:</strong> Tối ưu hóa cấu trúc lưu trữ và thiết lập quy tắc đặt tên tệp chuẩn hóa.</p>
-                <div class="highlight-box">
-                    <strong>Quy tắc đặt tên sáng tạo:</strong>
-                    <br> `[Tên_Dự_Án]_[Loại_Tài_Liệu]_[Tên_Tác_Giả]_[Phiên_Bản]`
-                    <br> <em>Ví dụ: ThucHanh_LePhuongLien_GhiChuQuanTrong.txt</em>
+    <!-- ========== HERO SECTION ========== -->
+    <section class="hero" id="hero">
+        <div class="hero-bg-overlay"></div>
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-badge animate-fade-in">
+                    <span class="badge-dot"></span>
+                    Digital Portfolio — Nhập môn Công nghệ số & AI
                 </div>
-                <p><strong>Tư duy tổ chức:</strong> Việc phân cấp thư mục logic (Ví dụ: tách biệt thư mục gốc và thư mục con `TaiLieu`) kết hợp với việc nắm vững phím tắt (Ctrl+C, Ctrl+V, Shift+Delete) giúp rút ngắn 30% thời gian tìm kiếm và quản lý tài sản số, tạo nền tảng vững chắc cho làm việc nhóm.</p>
-            </div>
-
-            <div class="card">
-                <h3><i class="fas fa-search"></i> NV 2: Khai thác & Đánh giá thông tin</h3>
-                <p><strong>Mục tiêu:</strong> Tìm kiếm học thuật chủ đề "Ảnh hưởng mạng xã hội đến hành vi tiêu dùng".</p>
-                <p><strong>Chiến lược tìm kiếm nâng cao:</strong></p>
-                <ul>
-                    <li><code>"Social Media and Consumer Behavior" filetype:pdf</code> (Tìm báo cáo định dạng PDF)</li>
-                    <li><code>site:gov.vn</code> (Lọc tin tức chính thống)</li>
-                    <li><code>AND / OR</code> để mở rộng và thu hẹp phạm vi từ khóa.</li>
-                </ul>
-                <p><strong>Phân tích sâu sắc:</strong> Xây dựng ma trận đánh giá 5 tiêu chí: Tác giả, Cơ quan xuất bản, Phương pháp nghiên cứu, Số lượng trích dẫn, Tính cập nhật. Phân loại rõ rệt giữa nguồn học thuật (Google Scholar - độ tin cậy cao) và nguồn tham khảo (Báo chí, Blog - cần kiểm chứng).</p>
-            </div>
-
-            <div class="card">
-                <h3><i class="fas fa-terminal"></i> NV 3: Kỹ thuật Prompt Engineering</h3>
-                <p><strong>Mục tiêu:</strong> Làm chủ AI thông qua việc thiết kế Prompt có bối cảnh và vai trò (Role-playing).</p>
-                <table class="comparison-table">
-                    <tr>
-                        <th>Prompt Cơ bản</th>
-                        <th>Prompt Cải tiến (Đã sử dụng)</th>
-                    </tr>
-                    <tr>
-                        <td>"Phân tích bài báo này cho tôi..."</td>
-                        <td>"Hãy đóng vai một nhà phân tích diễn ngôn. Phân tích bài báo sau... Hãy xác định: (1) Sắc thái tình cảm; (2) Từ khóa nhấn mạnh; (3) Định hình nhận thức..."</td>
-                    </tr>
-                </table>
-                <p><strong>Cơ chế hoạt động:</strong> Bằng cách gán vai trò "nhà phân tích diễn ngôn" và chia nhỏ yêu cầu đầu ra thành 3 câu hỏi cụ thể, AI (ChatGPT) bị thu hẹp không gian phản hồi, buộc phải phân tích sâu vào cấu trúc câu từ (backgrounding/foregrounding) thay vì tóm tắt văn bản thông thường.</p>
-            </div>
-
-            <div class="card">
-                <h3><i class="fas fa-users"></i> NV 4: Hợp tác & Điều phối trực tuyến</h3>
-                <p><strong>Mục tiêu:</strong> Quản lý dự án nhóm với bộ công cụ đám mây.</p>
-                <ul>
-                    <li><strong>Quản lý tiến độ:</strong> Sử dụng Trello thiết lập bảng Kanban (To-do, Doing, Done), gắn thẻ thành viên và đặt Deadline.</li>
-                    <li><strong>Soạn thảo cộng tác:</strong> Google Docs - Sử dụng tính năng "Gợi ý chỉnh sửa" và "Bình luận" (Comment) để nhận xét chéo bài làm, tránh ghi đè dữ liệu.</li>
-                    <li><strong>Lưu trữ & Giao tiếp:</strong> Google Drive đồng bộ hóa tài liệu; Google Meet tổ chức 3 buổi họp trực tuyến có chia sẻ màn hình để duyệt thiết kế.</li>
-                </ul>
-                <p><strong>Tối ưu hóa:</strong> Phân quyền truy cập rõ ràng (Viewer/Editor) đảm bảo an toàn thông tin dự án.</p>
-            </div>
-
-            <div class="card">
-                <h3><i class="fas fa-magic"></i> NV 5: Sáng tạo nội dung với AI</h3>
-                <p><strong>Sản phẩm:</strong> Video truyền thông ứng dụng ELSA Speak.</p>
-                <div class="highlight-box">
-                    <strong>Quy trình tích hợp đa công cụ:</strong><br>
-                    1. <strong>ChatGPT:</strong> Viết kịch bản theo công thức Hook - Story - Offer (thời lượng 2-3 phút).<br>
-                    2. <strong>DALL-E / Dreamina:</strong> Tạo hình ảnh minh họa bám sát bối cảnh (Ví dụ: "Học sinh lúng túng khi phát âm sai", "Giao diện Hologram 4K").<br>
-                    3. <strong>Canva AI:</strong> Lồng tiếng, tạo hiệu ứng chuyển cảnh và biên tập video hoàn chỉnh.
+                <h1 class="hero-title animate-fade-in-up">
+                    Xin Chào, Tôi Là <br>
+                    <span class="gradient-text">Lê Phương Liên</span>
+                </h1>
+                <p class="hero-subtitle animate-fade-in-up delay-1">
+                    Sinh viên <strong>Marketing và Truyền thông</strong> tại Trường Quản trị và Kinh doanh (HSB) — ĐHQGHN. Đây là nơi tôi lưu trữ, hệ thống hóa và trình bày hành trình chinh phục <strong>kỹ năng số</strong> — từ tư duy tổ chức dữ liệu đến làm chủ Trí tuệ nhân tạo có trách nhiệm.
+                </p>
+                <div class="hero-meta animate-fade-in-up delay-2">
+                    <div class="meta-item">
+                        <div class="meta-icon">👤</div>
+                        <div>
+                            <span class="meta-label">Mã sinh viên</span>
+                            <span class="meta-value">25080089</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">🏫</div>
+                        <div>
+                            <span class="meta-label">Lớp</span>
+                            <span class="meta-value">MAC 6A — HSB</span>
+                        </div>
+                    </div>
+                    <div class="meta-item">
+                        <div class="meta-icon">🎯</div>
+                        <div>
+                            <span class="meta-label">Chuyên ngành</span>
+                            <span class="meta-value">Marketing & Truyền thông</span>
+                        </div>
+                    </div>
                 </div>
-                <p><strong>Đánh giá:</strong> AI giúp chuyển đổi quy trình từ "tuyến tính" sang "song song", giảm 60% thời gian sản xuất. Tuy nhiên, yếu tố con người vẫn quyết định ở khâu kiểm duyệt thông điệp và thổi hồn cảm xúc vào sản phẩm.</p>
+                <div class="hero-actions animate-fade-in-up delay-3">
+                    <a href="#projects" class="btn btn-primary">
+                        <span>Khám Phá Dự Án</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </a>
+                    <a href="#reflection" class="btn btn-secondary">
+                        <span>Đọc Tổng Kết</span>
+                    </a>
+                </div>
             </div>
-
-            <div class="card">
-                <h3><i class="fas fa-balance-scale"></i> NV 6: Trách nhiệm & Đạo đức AI</h3>
-                <p><strong>Mục tiêu:</strong> Xây dựng khung đạo đức khi ứng dụng AI trong học thuật (dựa trên chính sách của HSB/VNU).</p>
-                <p><strong>7 Nguyên tắc Vàng (Cá nhân hóa):</strong></p>
-                <ol>
-                    <li>AI là công cụ hỗ trợ, không phải người làm thay.</li>
-                    <li>Luôn kiểm chứng chéo thông tin AI cung cấp (Fact-check).</li>
-                    <li>Tôn trọng Sở hữu trí tuệ, diễn đạt lại bằng hiểu biết cá nhân.</li>
-                    <li>Minh bạch khai báo khi sử dụng AI trong nghiên cứu.</li>
-                    <li>Không phụ thuộc - duy trì tư duy phản biện.</li>
-                    <li>Dùng AI để học cách tư duy, không dùng để trốn việc.</li>
-                    <li>Chịu trách nhiệm cuối cùng với sản phẩm của mình.</li>
-                </ol>
+            <div class="hero-visual animate-fade-in delay-2">
+                <div class="hero-visual-orb"></div>
+                <div class="hero-visual-orb"></div>
+                <div class="hero-visual-orb"></div>
+                <div class="hero-visual-card">
+                    <div class="avatar">🌟</div>
+                    <h4>Lê Phương Liên</h4>
+                    <p>Marketer Hiện Đại</p>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Digital Skills</span>
+                        <span class="skill-tag">AI Application</span>
+                        <span class="skill-tag">Prompt Engineering</span>
+                        <span class="skill-tag">Content Creation</span>
+                    </div>
+                </div>
+                <div class="floating-badge">
+                    <span class="fb-icon">🤖</span> AI Enthusiast
+                </div>
+                <div class="floating-badge">
+                    <span class="fb-icon">📊</span> Data Thinker
+                </div>
+                <div class="floating-badge">
+                    <span class="fb-icon">🎨</span> Creative Mind
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="tong-ket" style="background-color: white; border-radius: 10px; padding: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 50px;">
-        <h2 class="section-title">Tổng kết & Trải nghiệm cá nhân</h2>
-        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-            Nhìn lại hành trình hoàn thiện chuỗi dự án này, sự trưởng thành lớn nhất của tôi không nằm ở việc biết cách dùng ChatGPT hay Canva, mà nằm ở <strong>tư duy làm chủ công nghệ</strong>. 
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
-            Từ việc tổ chức file gọn gàng ở Bài 1, khả năng đánh giá độ tin cậy của thông tin ở Bài 2, đến việc thiết kế Prompt có chủ đích ở Bài 3, 5, 7 và phối hợp nhóm hiệu quả ở Bài 4. Tôi nhận ra công nghệ chỉ là đòn bẩy, còn tư duy logic và liêm chính học thuật (Bài 6) mới là điểm tựa. 
-        </p>
-        <p style="font-size: 1.1rem; line-height: 1.8;">
-            Là một sinh viên Marketing và Truyền thông, những kỹ năng này là hành trang vô giá. Khả năng phân tích diễn ngôn bằng AI giúp tôi nắm bắt insight khách hàng sâu sắc hơn; kỹ năng sáng tạo nội dung số đa phương tiện giúp tôi tự tin thiết kế các chiến dịch truyền thông đa kênh trong tương lai. Tôi đã sẵn sàng để trở thành một Marketer hiện đại: Sáng tạo, Thích ứng nhanh và Sử dụng công nghệ có trách nhiệm.
-        </p>
+    <!-- ========== PROJECTS SECTION ========== -->
+    <section class="section section-dark" id="projects">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">💼 Nhiệm vụ học tập</span>
+                <h2 class="section-title">Hồ Sơ <span class="gradient-text">Dự Án & Kỹ Năng</span></h2>
+                <p class="section-desc">Mỗi nhiệm vụ là một bước tiến trong hành trình chinh phục kỹ năng số — từ quản lý dữ liệu, khai thác thông tin, đến sáng tạo nội dung và đạo đức AI.</p>
+            </div>
+
+            <div class="projects-grid">
+                <!-- NV 1 -->
+                <div class="project-card glass-card">
+                    <div class="project-visual bg-gradient-1">
+                        <span class="project-icon">📂</span>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-badge">Nhiệm vụ 1</div>
+                        <h3>Quản Lý Dữ Liệu Khoa Học</h3>
+                        <p><strong>Mục tiêu:</strong> Tối ưu hóa cấu trúc lưu trữ và thiết lập quy tắc đặt tên tệp chuẩn hóa.</p>
+                        <div class="highlight-box">
+                            <strong>Quy tắc đặt tên sáng tạo:</strong><br>
+                            <code>[Tên_Dự_Án]_[Loại_Tài_Liệu]_[Tên_Tác_Giả]_[Phiên_Bản]</code><br>
+                            <em style="color: var(--text-muted); font-size: 0.8rem;">VD: ThucHanh_LePhuongLien_GhiChuQuanTrong.txt</em>
+                        </div>
+                        <p><strong>Tư duy tổ chức:</strong> Phân cấp thư mục logic kết hợp phím tắt (Ctrl+C, Ctrl+V, Shift+Delete) giúp rút ngắn <strong style="color: var(--accent-primary);">30%</strong> thời gian tìm kiếm tài sản số.</p>
+                    </div>
+                </div>
+
+                <!-- NV 2 -->
+                <div class="project-card glass-card">
+                    <div class="project-visual bg-gradient-2">
+                        <span class="project-icon">🔍</span>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-badge">Nhiệm vụ 2</div>
+                        <h3>Khai Thác & Đánh Giá Thông Tin</h3>
+                        <p><strong>Mục tiêu:</strong> Tìm kiếm học thuật chủ đề "Ảnh hưởng mạng xã hội đến hành vi tiêu dùng".</p>
+                        <ul>
+                            <li><code>"Social Media and Consumer Behavior" filetype:pdf</code></li>
+                            <li><code>site:gov.vn</code> — Lọc tin tức chính thống</li>
+                            <li><code>AND / OR</code> — Mở rộng & thu hẹp phạm vi</li>
+                        </ul>
+                        <p><strong>Ma trận đánh giá 5 tiêu chí:</strong> Tác giả, Cơ quan xuất bản, Phương pháp, Trích dẫn, Tính cập nhật. Phân biệt rõ nguồn học thuật (Google Scholar) và nguồn tham khảo.</p>
+                    </div>
+                </div>
+
+                <!-- NV 3 -->
+                <div class="project-card glass-card">
+                    <div class="project-visual bg-gradient-3">
+                        <span class="project-icon">💬</span>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-badge">Nhiệm vụ 3</div>
+                        <h3>Kỹ Thuật Prompt Engineering</h3>
+                        <p><strong>Mục tiêu:</strong> Làm chủ AI thông qua Prompt có bối cảnh và vai trò (Role-playing).</p>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>Prompt Cơ bản</th>
+                                <th>Prompt Cải tiến</th>
+                            </tr>
+                            <tr>
+                                <td>"Phân tích bài báo này cho tôi..."</td>
+                                <td>"Hãy đóng vai nhà phân tích diễn ngôn. Xác định: (1) Sắc thái tình cảm; (2) Từ khóa nhấn mạnh; (3) Định hình nhận thức..."</td>
+                            </tr>
+                        </table>
+                        <p><strong>Cơ chế:</strong> Gán vai trò + chia nhỏ yêu cầu → AI bị thu hẹp không gian phản hồi, phân tích sâu cấu trúc câu từ thay vì tóm tắt thông thường.</p>
+                    </div>
+                </div>
+
+                <!-- NV 4 -->
+                <div class="project-card glass-card">
+                    <div class="project-visual bg-gradient-4">
+                        <span class="project-icon">🤝</span>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-badge">Nhiệm vụ 4</div>
+                        <h3>Hợp Tác & Điều Phối Trực Tuyến</h3>
+                        <p><strong>Mục tiêu:</strong> Quản lý dự án nhóm với bộ công cụ đám mây.</p>
+                        <ul>
+                            <li><strong>Trello:</strong> Bảng Kanban (To-do → Doing → Done), gắn thẻ thành viên & Deadline</li>
+                            <li><strong>Google Docs:</strong> "Gợi ý chỉnh sửa" & "Bình luận" để nhận xét chéo, tránh ghi đè</li>
+                            <li><strong>Google Drive + Meet:</strong> Đồng bộ tài liệu, 3 buổi họp trực tuyến duyệt thiết kế</li>
+                        </ul>
+                        <p><strong>Tối ưu hóa:</strong> Phân quyền truy cập rõ ràng (Viewer/Editor) đảm bảo an toàn thông tin dự án.</p>
+                    </div>
+                </div>
+
+                <!-- NV 5 -->
+                <div class="project-card glass-card">
+                    <div class="project-visual bg-gradient-5">
+                        <span class="project-icon">🎨</span>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-badge">Nhiệm vụ 5</div>
+                        <h3>Sáng Tạo Nội Dung Với AI</h3>
+                        <p><strong>Sản phẩm:</strong> Video truyền thông ứng dụng ELSA Speak.</p>
+                        <div class="highlight-box">
+                            <strong>Quy trình tích hợp đa công cụ:</strong><br>
+                            1. <strong>ChatGPT:</strong> Viết kịch bản Hook - Story - Offer (2-3 phút)<br>
+                            2. <strong>DALL-E / Dreamina:</strong> Tạo hình minh họa bám sát bối cảnh<br>
+                            3. <strong>Canva AI:</strong> Lồng tiếng, hiệu ứng chuyển cảnh & biên tập video
+                        </div>
+                        <p><strong>Đánh giá:</strong> AI giúp chuyển quy trình "tuyến tính" → "song song", giảm <strong style="color: var(--accent-primary);">60%</strong> thời gian sản xuất. Yếu tố con người quyết định ở khâu kiểm duyệt và cảm xúc.</p>
+                    </div>
+                </div>
+
+                <!-- NV 6 -->
+                <div class="project-card glass-card">
+                    <div class="project-visual bg-gradient-6">
+                        <span class="project-icon">⚖️</span>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-badge">Nhiệm vụ 6</div>
+                        <h3>Trách Nhiệm & Đạo Đức AI</h3>
+                        <p><strong>Mục tiêu:</strong> Xây dựng khung đạo đức AI trong học thuật (theo chính sách HSB/VNU).</p>
+                        <ol>
+                            <li>AI là công cụ hỗ trợ, <strong>không phải người làm thay</strong></li>
+                            <li>Luôn kiểm chứng chéo (Fact-check) thông tin AI</li>
+                            <li>Tôn trọng Sở hữu trí tuệ, diễn đạt lại bằng hiểu biết cá nhân</li>
+                            <li>Minh bạch khai báo khi sử dụng AI trong nghiên cứu</li>
+                            <li>Duy trì tư duy phản biện, không phụ thuộc</li>
+                            <li>Dùng AI để <strong>học cách tư duy</strong>, không phải trốn việc</li>
+                            <li><strong>Chịu trách nhiệm cuối cùng</strong> với sản phẩm của mình</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <footer>
-        <p>© 2026 Lê Phương Liên (25080089). Thiết kế cho học phần Nhập môn Công nghệ số & Ứng dụng Trí tuệ nhân tạo.</p>
+    <!-- ========== STATS SECTION ========== -->
+    <section class="section" id="stats">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">📊 Thành tựu nổi bật</span>
+                <h2 class="section-title">Con Số <span class="gradient-text">Ấn Tượng</span></h2>
+            </div>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="6">0</div>
+                    <div class="stat-label">Nhiệm vụ hoàn thành</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="30" data-suffix="%">0</div>
+                    <div class="stat-label">Giảm thời gian quản lý</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="60" data-suffix="%">0</div>
+                    <div class="stat-label">Giảm thời gian sản xuất</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="7">0</div>
+                    <div class="stat-label">Nguyên tắc đạo đức AI</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== REFLECTION & CONCLUSION ========== -->
+    <section class="section section-dark" id="reflection">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-tag">📈 Trưởng Thành Cùng Công Nghệ</span>
+                <h2 class="section-title">Tổng Kết & <span class="gradient-text">Trải Nghiệm Cá Nhân</span></h2>
+                <p class="section-desc">Nhìn lại hành trình hoàn thiện chuỗi dự án, sự trưởng thành lớn nhất không nằm ở việc biết cách dùng công cụ, mà ở tư duy làm chủ công nghệ.</p>
+            </div>
+
+            <div class="reflection-layout">
+                <!-- Kiến thức thu nhận -->
+                <div class="reflection-card glass-card">
+                    <div class="r-icon">💡</div>
+                    <h3>Kiến thức & Kỹ năng thu nhận</h3>
+                    <ul class="reflection-list">
+                        <li><strong>Tổ chức file khoa học</strong> (Bài 1) kết hợp <strong>đánh giá nguồn tin</strong> (Bài 2) tạo nền tảng vững chắc cho tư duy nghiên cứu.</li>
+                        <li><strong>Prompt Engineering có chủ đích</strong> (Bài 3, 5) — biến AI thành trợ lý đắc lực, không phải máy trả lời tự động.</li>
+                        <li><strong>Phối hợp nhóm hiệu quả</strong> (Bài 4) — thành thạo bộ công cụ Trello, Google Workspace cho dự án cộng tác.</li>
+                    </ul>
+                </div>
+
+                <!-- Giá trị ứng dụng -->
+                <div class="reflection-card glass-card">
+                    <div class="r-icon">🎯</div>
+                    <h3>Giá trị ứng dụng cho Marketing</h3>
+                    <ul class="reflection-list">
+                        <li><strong>Phân tích diễn ngôn bằng AI</strong> giúp nắm bắt <em>insight khách hàng</em> sâu sắc hơn bất cứ phương pháp truyền thống nào.</li>
+                        <li><strong>Sáng tạo nội dung số đa phương tiện</strong> — kỹ năng thiết kế chiến dịch truyền thông đa kênh trong tương lai.</li>
+                        <li><strong>Liêm chính học thuật</strong> (Bài 6) — công nghệ chỉ là đòn bẩy, tư duy logic mới là điểm tựa.</li>
+                    </ul>
+                </div>
+
+                <!-- Tổng kết lớn -->
+                <div class="reflection-card glass-card featured-reflection">
+                    <div class="r-icon">🚀</div>
+                    <h3>Sẵn sàng trở thành Marketer Hiện Đại</h3>
+                    <p class="reflection-text">
+                        Từ việc tổ chức file gọn gàng ở Bài 1, khả năng đánh giá độ tin cậy thông tin ở Bài 2, đến việc thiết kế Prompt có chủ đích ở Bài 3, 5 và phối hợp nhóm hiệu quả ở Bài 4. Tôi nhận ra công nghệ chỉ là đòn bẩy, còn <strong>tư duy logic và liêm chính học thuật</strong> (Bài 6) mới là điểm tựa.
+                    </p>
+                    <p class="reflection-text">
+                        Là một sinh viên Marketing và Truyền thông, những kỹ năng này là hành trang vô giá. Tôi đã sẵn sàng để trở thành một Marketer hiện đại: <strong>Sáng tạo, Thích ứng nhanh và Sử dụng công nghệ có trách nhiệm.</strong>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-icon">L</span>
+                    <span class="logo-text">Phương<span class="accent">Liên</span></span>
+                </div>
+                <p>E-Portfolio thiết kế bởi Lê Phương Liên (25080089)</p>
+                <p>Học phần Nhập môn Công nghệ số & Ứng dụng Trí tuệ nhân tạo — HSB, ĐHQGHN</p>
+                <div class="footer-divider"></div>
+                <p class="footer-copyright">© 2026 Lê Phương Liên. Tự hào thiết kế với sự hỗ trợ của AI.</p>
+            </div>
+        </div>
     </footer>
 
+    <button class="back-to-top" id="backToTop" aria-label="Quay lại đầu trang">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+    </button>
+
+    <script src="script.js"></script>
 </body>
 </html>
