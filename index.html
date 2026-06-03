@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Lê Phương Liên - Marketing & Truyền thông</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F4C3A; /* Màu xanh lá chuẩn của HSB */
+            --secondary: #D4AF37; /* Màu vàng gold sang trọng */
+            --bg-light: #F8F9FA;
+            --text-dark: #333333;
+            --text-light: #666666;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { color: var(--text-dark); line-height: 1.6; background-color: var(--bg-light); scroll-behavior: smooth; }
+        
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; background: white; padding: 1rem 5%; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
+        nav h2 { color: var(--primary); font-size: 1.5rem; }
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav a { text-decoration: none; color: var(--text-dark); font-weight: 600; transition: color 0.3s; }
+        nav a:hover { color: var(--secondary); }
+
+        /* Hero Section */
+        header { padding: 120px 5% 80px; background: linear-gradient(135deg, var(--primary), #1a7a5c); color: white; text-align: center; }
+        header h1 { font-size: 3rem; margin-bottom: 10px; }
+        header p { font-size: 1.2rem; margin-bottom: 20px; font-weight: 300; }
+        .hero-tags span { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; margin: 0 5px; font-size: 0.9rem; }
+
+        /* Sections */
+        section { padding: 80px 5%; max-width: 1200px; margin: 0 auto; }
+        .section-title { text-align: center; margin-bottom: 50px; color: var(--primary); font-size: 2.2rem; position: relative; }
+        .section-title::after { content: ''; width: 60px; height: 4px; background: var(--secondary); display: block; margin: 10px auto 0; border-radius: 2px; }
+
+        /* Cards Layout */
+        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .card { background: white; border-radius: 10px; padding: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); transition: transform 0.3s; }
+        .card:hover { transform: translateY(-5px); }
+        .card h3 { color: var(--primary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .card i { color: var(--secondary); font-size: 1.5rem; }
+        .card img { width: 100%; border-radius: 5px; margin: 15px 0; border: 1px solid #eee; }
+
+        /* Specific Highlight Blocks */
+        .highlight-box { background: #e8f4f0; padding: 20px; border-left: 4px solid var(--primary); margin: 15px 0; border-radius: 0 5px 5px 0; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .comparison-table th, .comparison-table td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+        .comparison-table th { background-color: var(--primary); color: white; }
+
+        /* Footer */
+        footer { background: var(--primary); color: white; text-align: center; padding: 30px 5%; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h2>LPL Portfolio.</h2>
+        <ul>
+            <li><a href="#gioi-thieu">Giới thiệu</a></li>
+            <li><a href="#du-an">Dự án Kỹ thuật số</a></li>
+            <li><a href="#tong-ket">Tổng kết</a></li>
+        </ul>
+    </nav>
+
+    <header id="gioi-thieu">
+        <h1>Lê Phương Liên</h1>
+        <p>Sinh viên Marketing và Truyền thông | Trường Quản trị và Kinh doanh (HSB) - ĐHQGHN</p>
+        <div class="hero-tags">
+            <span>MSV: 25080089</span>
+            <span>Lớp: MAC 6A - HSB</span>
+            <span>Digital Skills</span>
+            <span>AI Application</span>
+        </div>
+        <p style="margin-top: 30px; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.8;">
+            Chào mừng đến với Digital Portfolio của tôi! Đây là không gian tôi lưu trữ, hệ thống hóa và trình bày các kỹ năng số đã học. Mục tiêu của tôi không chỉ là biết cách sử dụng công cụ, mà là <strong>tư duy tối ưu hóa quy trình làm việc, ứng dụng trí tuệ nhân tạo có đạo đức và phát triển bản thân</strong> trong kỷ nguyên số.
+        </p>
+    </header>
+
+    <section id="du-an">
+        <h2 class="section-title">Hồ sơ Dự án & Kỹ năng</h2>
+        
+        <div class="grid-container">
+            <div class="card">
+                <h3><i class="fas fa-folder-tree"></i> NV 1: Quản lý dữ liệu khoa học</h3>
+                <p><strong>Mục tiêu:</strong> Tối ưu hóa cấu trúc lưu trữ và thiết lập quy tắc đặt tên tệp chuẩn hóa.</p>
+                <div class="highlight-box">
+                    <strong>Quy tắc đặt tên sáng tạo:</strong>
+                    <br> `[Tên_Dự_Án]_[Loại_Tài_Liệu]_[Tên_Tác_Giả]_[Phiên_Bản]`
+                    <br> <em>Ví dụ: ThucHanh_LePhuongLien_GhiChuQuanTrong.txt</em>
+                </div>
+                <p><strong>Tư duy tổ chức:</strong> Việc phân cấp thư mục logic (Ví dụ: tách biệt thư mục gốc và thư mục con `TaiLieu`) kết hợp với việc nắm vững phím tắt (Ctrl+C, Ctrl+V, Shift+Delete) giúp rút ngắn 30% thời gian tìm kiếm và quản lý tài sản số, tạo nền tảng vững chắc cho làm việc nhóm.</p>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-search"></i> NV 2: Khai thác & Đánh giá thông tin</h3>
+                <p><strong>Mục tiêu:</strong> Tìm kiếm học thuật chủ đề "Ảnh hưởng mạng xã hội đến hành vi tiêu dùng".</p>
+                <p><strong>Chiến lược tìm kiếm nâng cao:</strong></p>
+                <ul>
+                    <li><code>"Social Media and Consumer Behavior" filetype:pdf</code> (Tìm báo cáo định dạng PDF)</li>
+                    <li><code>site:gov.vn</code> (Lọc tin tức chính thống)</li>
+                    <li><code>AND / OR</code> để mở rộng và thu hẹp phạm vi từ khóa.</li>
+                </ul>
+                <p><strong>Phân tích sâu sắc:</strong> Xây dựng ma trận đánh giá 5 tiêu chí: Tác giả, Cơ quan xuất bản, Phương pháp nghiên cứu, Số lượng trích dẫn, Tính cập nhật. Phân loại rõ rệt giữa nguồn học thuật (Google Scholar - độ tin cậy cao) và nguồn tham khảo (Báo chí, Blog - cần kiểm chứng).</p>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-terminal"></i> NV 3: Kỹ thuật Prompt Engineering</h3>
+                <p><strong>Mục tiêu:</strong> Làm chủ AI thông qua việc thiết kế Prompt có bối cảnh và vai trò (Role-playing).</p>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Prompt Cơ bản</th>
+                        <th>Prompt Cải tiến (Đã sử dụng)</th>
+                    </tr>
+                    <tr>
+                        <td>"Phân tích bài báo này cho tôi..."</td>
+                        <td>"Hãy đóng vai một nhà phân tích diễn ngôn. Phân tích bài báo sau... Hãy xác định: (1) Sắc thái tình cảm; (2) Từ khóa nhấn mạnh; (3) Định hình nhận thức..."</td>
+                    </tr>
+                </table>
+                <p><strong>Cơ chế hoạt động:</strong> Bằng cách gán vai trò "nhà phân tích diễn ngôn" và chia nhỏ yêu cầu đầu ra thành 3 câu hỏi cụ thể, AI (ChatGPT) bị thu hẹp không gian phản hồi, buộc phải phân tích sâu vào cấu trúc câu từ (backgrounding/foregrounding) thay vì tóm tắt văn bản thông thường.</p>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-users"></i> NV 4: Hợp tác & Điều phối trực tuyến</h3>
+                <p><strong>Mục tiêu:</strong> Quản lý dự án nhóm với bộ công cụ đám mây.</p>
+                <ul>
+                    <li><strong>Quản lý tiến độ:</strong> Sử dụng Trello thiết lập bảng Kanban (To-do, Doing, Done), gắn thẻ thành viên và đặt Deadline.</li>
+                    <li><strong>Soạn thảo cộng tác:</strong> Google Docs - Sử dụng tính năng "Gợi ý chỉnh sửa" và "Bình luận" (Comment) để nhận xét chéo bài làm, tránh ghi đè dữ liệu.</li>
+                    <li><strong>Lưu trữ & Giao tiếp:</strong> Google Drive đồng bộ hóa tài liệu; Google Meet tổ chức 3 buổi họp trực tuyến có chia sẻ màn hình để duyệt thiết kế.</li>
+                </ul>
+                <p><strong>Tối ưu hóa:</strong> Phân quyền truy cập rõ ràng (Viewer/Editor) đảm bảo an toàn thông tin dự án.</p>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-magic"></i> NV 5: Sáng tạo nội dung với AI</h3>
+                <p><strong>Sản phẩm:</strong> Video truyền thông ứng dụng ELSA Speak.</p>
+                <div class="highlight-box">
+                    <strong>Quy trình tích hợp đa công cụ:</strong><br>
+                    1. <strong>ChatGPT:</strong> Viết kịch bản theo công thức Hook - Story - Offer (thời lượng 2-3 phút).<br>
+                    2. <strong>DALL-E / Dreamina:</strong> Tạo hình ảnh minh họa bám sát bối cảnh (Ví dụ: "Học sinh lúng túng khi phát âm sai", "Giao diện Hologram 4K").<br>
+                    3. <strong>Canva AI:</strong> Lồng tiếng, tạo hiệu ứng chuyển cảnh và biên tập video hoàn chỉnh.
+                </div>
+                <p><strong>Đánh giá:</strong> AI giúp chuyển đổi quy trình từ "tuyến tính" sang "song song", giảm 60% thời gian sản xuất. Tuy nhiên, yếu tố con người vẫn quyết định ở khâu kiểm duyệt thông điệp và thổi hồn cảm xúc vào sản phẩm.</p>
+            </div>
+
+            <div class="card">
+                <h3><i class="fas fa-balance-scale"></i> NV 6: Trách nhiệm & Đạo đức AI</h3>
+                <p><strong>Mục tiêu:</strong> Xây dựng khung đạo đức khi ứng dụng AI trong học thuật (dựa trên chính sách của HSB/VNU).</p>
+                <p><strong>7 Nguyên tắc Vàng (Cá nhân hóa):</strong></p>
+                <ol>
+                    <li>AI là công cụ hỗ trợ, không phải người làm thay.</li>
+                    <li>Luôn kiểm chứng chéo thông tin AI cung cấp (Fact-check).</li>
+                    <li>Tôn trọng Sở hữu trí tuệ, diễn đạt lại bằng hiểu biết cá nhân.</li>
+                    <li>Minh bạch khai báo khi sử dụng AI trong nghiên cứu.</li>
+                    <li>Không phụ thuộc - duy trì tư duy phản biện.</li>
+                    <li>Dùng AI để học cách tư duy, không dùng để trốn việc.</li>
+                    <li>Chịu trách nhiệm cuối cùng với sản phẩm của mình.</li>
+                </ol>
+            </div>
+        </div>
+    </section>
+
+    <section id="tong-ket" style="background-color: white; border-radius: 10px; padding: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 50px;">
+        <h2 class="section-title">Tổng kết & Trải nghiệm cá nhân</h2>
+        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+            Nhìn lại hành trình hoàn thiện chuỗi dự án này, sự trưởng thành lớn nhất của tôi không nằm ở việc biết cách dùng ChatGPT hay Canva, mà nằm ở <strong>tư duy làm chủ công nghệ</strong>. 
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+            Từ việc tổ chức file gọn gàng ở Bài 1, khả năng đánh giá độ tin cậy của thông tin ở Bài 2, đến việc thiết kế Prompt có chủ đích ở Bài 3, 5, 7 và phối hợp nhóm hiệu quả ở Bài 4. Tôi nhận ra công nghệ chỉ là đòn bẩy, còn tư duy logic và liêm chính học thuật (Bài 6) mới là điểm tựa. 
+        </p>
+        <p style="font-size: 1.1rem; line-height: 1.8;">
+            Là một sinh viên Marketing và Truyền thông, những kỹ năng này là hành trang vô giá. Khả năng phân tích diễn ngôn bằng AI giúp tôi nắm bắt insight khách hàng sâu sắc hơn; kỹ năng sáng tạo nội dung số đa phương tiện giúp tôi tự tin thiết kế các chiến dịch truyền thông đa kênh trong tương lai. Tôi đã sẵn sàng để trở thành một Marketer hiện đại: Sáng tạo, Thích ứng nhanh và Sử dụng công nghệ có trách nhiệm.
+        </p>
+    </section>
+
+    <footer>
+        <p>© 2026 Lê Phương Liên (25080089). Thiết kế cho học phần Nhập môn Công nghệ số & Ứng dụng Trí tuệ nhân tạo.</p>
+    </footer>
+
+</body>
+</html>
