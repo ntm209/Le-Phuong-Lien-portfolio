@@ -4,1578 +4,730 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Lê Phương Liên — Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;1,500&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
+    /* ==================== RESET & TOKENS ==================== */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+    
     :root {
-      --cream: #FAF6EF;
-      --warm-white: #FDF9F4;
-      --blush: #E8C4B0;
-      --rose: #C87D6E;
-      --terracotta: #A85A4A;
-      --deep: #2E1F1A;
-      --mid: #6B4C44;
-      --light-mid: #9C7A72;
-      --gold: #C9A96E;
-      --sage: #8FA882;
-      --ink: #1C1410;
+      --bg-base: #060608;
+      --bg-surface: rgba(255, 255, 255, 0.02);
+      --glass-border: rgba(255, 255, 255, 0.06);
+      --glass-glow: rgba(255, 255, 255, 0.1);
+      
+      --text-main: #f3f4f6;
+      --text-muted: #9ca3af;
+      --text-dim: #6b7280;
+      
+      --neon-purple: #a855f7;
+      --neon-blue: #3b82f6;
+      --neon-emerald: #10b981;
+      
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body: 'Manrope', sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      background: var(--bg-base);
+    }
 
     body {
-      background: var(--cream);
-      color: var(--deep);
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 300;
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.6;
       overflow-x: hidden;
       cursor: none;
     }
 
-    /* Custom cursor */
-    .cursor {
-      width: 12px; height: 12px;
+    /* ==================== CUSTOM CURSOR ==================== */
+    .cursor-dot {
+      position: fixed; top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: #fff;
       border-radius: 50%;
-      background: var(--rose);
-      position: fixed; pointer-events: none; z-index: 9999;
-      transform: translate(-50%, -50%);
-      transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
-    }
-    .cursor-ring {
-      width: 36px; height: 36px;
-      border: 1px solid var(--rose);
-      border-radius: 50%;
-      position: fixed; pointer-events: none; z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: transform 0.15s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
-      opacity: 0.6;
-    }
-
-    /* Noise overlay */
-    body::before {
-      content: '';
-      position: fixed; inset: 0; z-index: 1000;
       pointer-events: none;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-      opacity: 0.35;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 10px #fff, 0 0 20px var(--neon-purple);
+      transition: width 0.3s, height 0.3s;
     }
-
-    /* ─── HERO ─── */
-    .hero {
-      min-height: 100vh;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      position: relative;
-      overflow: hidden;
+    .cursor-glow {
+      position: fixed; top: 0; left: 0;
+      width: 40px; height: 40px;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s, background 0.3s;
+      mix-blend-mode: screen;
     }
+    .hover-target:hover ~ .cursor-dot { width: 12px; height: 12px; }
+    .hover-target:hover ~ .cursor-glow { width: 60px; height: 60px; background: rgba(255,255,255,0.1); border-color: transparent; }
 
-    .hero-left {
-      background: var(--deep);
-      display: flex; flex-direction: column;
-      justify-content: flex-end;
-      padding: 60px 50px;
-      position: relative;
-      overflow: hidden;
+    /* ==================== BACKGROUND AURORA ==================== */
+    .aurora-container {
+      position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+      background: radial-gradient(circle at center, #0a0a0f 0%, var(--bg-base) 100%);
     }
-
-    .hero-left::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: radial-gradient(ellipse at 30% 60%, rgba(200, 125, 110, 0.25) 0%, transparent 65%);
-    }
-
-    .hero-left .bg-text {
+    .orb {
       position: absolute;
-      top: -20px; left: -10px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(120px, 18vw, 220px);
-      font-weight: 300;
-      color: rgba(255,255,255,0.03);
-      line-height: 1;
-      white-space: nowrap;
-      pointer-events: none;
-      user-select: none;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.5;
+      animation: floatOrb 20s infinite alternate ease-in-out;
+    }
+    .orb-1 { width: 600px; height: 600px; background: var(--neon-purple); top: -200px; left: -100px; }
+    .orb-2 { width: 500px; height: 500px; background: var(--neon-emerald); bottom: -100px; right: -100px; animation-delay: -5s; }
+    .orb-3 { width: 400px; height: 400px; background: var(--neon-blue); top: 40%; left: 30%; animation-delay: -10s; opacity: 0.3; }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(50px, 100px) scale(1.1); }
+      100% { transform: translate(-50px, 50px) scale(0.9); }
     }
 
-    .hero-tag {
+    /* Noise Texture Overlay */
+    .noise-overlay {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      mix-blend-mode: overlay;
+    }
+
+    /* ==================== LAYOUT & COMPONENTS ==================== */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 40px;
+    }
+
+    .glass-panel {
+      background: var(--bg-surface);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 40px;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-panel:hover {
+      border-color: var(--glass-glow);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #fff 0%, #a1a1aa 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .text-gradient-neon {
+      background: linear-gradient(135deg, var(--neon-emerald) 0%, var(--neon-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .section-tag {
       display: inline-block;
-      border: 1px solid rgba(232, 196, 176, 0.4);
-      color: var(--blush);
-      font-size: 10px;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      padding: 6px 14px;
-      margin-bottom: 28px;
-      width: fit-content;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.3s forwards;
-    }
-
-    .hero-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(38px, 5vw, 68px);
-      font-weight: 300;
-      color: var(--warm-white);
-      line-height: 1.1;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.5s forwards;
-    }
-
-    .hero-name em {
-      font-style: italic;
-      color: var(--blush);
-    }
-
-    .hero-id {
-      margin-top: 18px;
-      font-size: 11px;
-      letter-spacing: 0.15em;
-      color: var(--light-mid);
-      opacity: 0;
-      animation: fadeUp 0.9s 0.7s forwards;
-    }
-
-    .hero-right {
-      background: var(--warm-white);
-      display: flex; flex-direction: column;
-      justify-content: center;
-      padding: 80px 55px 80px 60px;
-      position: relative;
-    }
-
-    .hero-right::after {
-      content: '';
-      position: absolute;
-      bottom: 0; right: 0;
-      width: 220px; height: 220px;
-      background: radial-gradient(circle, rgba(201, 169, 110, 0.12) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-major {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(28px, 3.5vw, 48px);
-      font-weight: 700;
-      color: var(--terracotta);
-      line-height: 1.2;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.6s forwards;
-    }
-
-    .hero-desc {
-      font-size: 14px;
-      line-height: 1.9;
-      color: var(--mid);
-      max-width: 380px;
-      border-left: 2px solid var(--blush);
-      padding-left: 18px;
-      opacity: 0;
-      animation: fadeUp 0.9s 0.8s forwards;
-    }
-
-    .hero-email {
-      margin-top: 30px;
-      display: flex; align-items: center; gap: 10px;
+      font-family: var(--font-display);
       font-size: 12px;
-      color: var(--light-mid);
-      letter-spacing: 0.08em;
-      opacity: 0;
-      animation: fadeUp 0.9s 1s forwards;
-    }
-    .hero-email span { color: var(--terracotta); font-weight: 500; }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 36px; left: 50px;
-      display: flex; align-items: center; gap: 10px;
-      font-size: 10px;
-      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: rgba(255,255,255,0.3);
-      opacity: 0;
-      animation: fadeUp 1s 1.2s forwards;
-    }
-    .scroll-hint::after {
-      content: '';
-      width: 40px; height: 1px;
-      background: rgba(255,255,255,0.25);
-      display: block;
-    }
-
-    /* ─── SECTION COMMON ─── */
-    section { position: relative; }
-
-    .section-label {
-      font-size: 10px;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--light-mid);
-      margin-bottom: 10px;
+      letter-spacing: 2px;
+      color: var(--neon-purple);
+      margin-bottom: 20px;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      padding: 6px 14px;
+      border-radius: 100px;
+      background: rgba(168, 85, 247, 0.05);
     }
 
     .section-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(32px, 4vw, 52px);
-      font-weight: 300;
-      color: var(--deep);
-      line-height: 1.15;
-    }
-
-    .section-title em {
-      font-style: italic;
-      color: var(--rose);
-    }
-
-    /* ─── ABOUT ─── */
-    .about {
-      padding: 120px 80px;
-      background: var(--warm-white);
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .about-visual {
-      position: relative;
-      height: 440px;
-    }
-
-    .about-card {
-      position: absolute;
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .about-card-main {
-      width: 260px; height: 340px;
-      top: 0; left: 30px;
-      background: linear-gradient(145deg, var(--blush), var(--rose));
-      display: flex; flex-direction: column;
-      justify-content: flex-end;
-      padding: 26px;
-    }
-
-    .about-card-main .initials {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 80px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.2);
-      line-height: 1;
-      position: absolute;
-      top: 16px; right: 20px;
-    }
-
-    .about-card-main p {
-      color: white;
-      font-size: 12px;
-      line-height: 1.7;
-      position: relative; z-index: 1;
-    }
-
-    .about-card-accent {
-      width: 170px; height: 180px;
-      bottom: 0; right: 10px;
-      background: var(--deep);
-      display: flex; align-items: center; justify-content: center;
-    }
-
-    .about-card-accent svg {
-      width: 48px; height: 48px;
-      stroke: var(--blush);
-    }
-
-    .about-card-gold {
-      width: 100px; height: 80px;
-      top: 60px; right: 10px;
-      background: var(--gold);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .about-card-gold span {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 32px;
-      color: white;
-      font-weight: 300;
-    }
-
-    .about-text .section-label { margin-bottom: 8px; }
-    .about-body {
-      margin-top: 24px;
-      font-size: 14px;
-      line-height: 2;
-      color: var(--mid);
-    }
-    .about-body p + p { margin-top: 16px; }
-
-    /* ─── HOBBIES ─── */
-    .hobbies {
-      background: var(--deep);
-      padding: 120px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hobbies::before {
-      content: '';
-      position: absolute;
-      top: -100px; right: -100px;
-      width: 500px; height: 500px;
-      border-radius: 50%;
-      border: 1px solid rgba(232, 196, 176, 0.06);
-    }
-
-    .hobbies .section-title { color: var(--warm-white); }
-    .hobbies .section-label { color: var(--light-mid); }
-
-    .hobbies-grid {
-      margin-top: 60px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-
-    .hobby-card {
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 40px 32px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.4s, transform 0.4s;
-      cursor: none;
-    }
-
-    .hobby-card:hover {
-      border-color: rgba(232, 196, 176, 0.3);
-      transform: translateY(-6px);
-    }
-
-    .hobby-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(200, 125, 110, 0.08) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-    .hobby-card:hover::before { opacity: 1; }
-
-    .hobby-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 60px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.04);
-      position: absolute;
-      top: 8px; right: 20px;
-      line-height: 1;
-    }
-
-    .hobby-icon {
-      font-size: 32px;
-      margin-bottom: 20px;
-    }
-
-    .hobby-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 24px;
-      font-weight: 400;
-      color: var(--blush);
-      margin-bottom: 12px;
-    }
-
-    .hobby-desc {
-      font-size: 13px;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.4);
-    }
-
-    /* ─── GOALS ─── */
-    .goals {
-      padding: 120px 80px;
-      background: var(--cream);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: start;
-    }
-
-    .goals-left .section-title { margin-bottom: 36px; }
-
-    .goals-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-style: italic;
-      color: var(--rose);
-      line-height: 1.6;
-      padding: 24px 0;
-      border-top: 1px solid var(--blush);
-      border-bottom: 1px solid var(--blush);
-      margin-top: 40px;
-    }
-
-    .goals-right {
-      padding-top: 20px;
-    }
-
-    .goal-item {
-      display: flex;
-      gap: 22px;
-      margin-bottom: 40px;
-      opacity: 0;
-      transform: translateX(30px);
-      transition: opacity 0.6s, transform 0.6s;
-    }
-
-    .goal-item.visible {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .goal-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 36px;
-      font-weight: 300;
-      color: var(--blush);
-      line-height: 1;
-      min-width: 40px;
-    }
-
-    .goal-content h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--deep);
-      margin-bottom: 8px;
-    }
-
-    .goal-content p {
-      font-size: 13px;
-      line-height: 1.85;
-      color: var(--mid);
-    }
-
-    /* ─── DOCUMENTS ─── */
-    .documents {
-      padding: 120px 80px;
-      background: var(--warm-white);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .documents::before {
-      content: 'DOCS';
-      position: absolute;
-      right: -20px; bottom: -30px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(120px, 16vw, 200px);
-      font-weight: 300;
-      color: rgba(46, 31, 26, 0.03);
-      pointer-events: none;
-      user-select: none;
-      line-height: 1;
-    }
-
-    .documents .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
+      font-family: var(--font-display);
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 700;
+      line-height: 1.1;
       margin-bottom: 60px;
     }
 
-    .documents .section-header-right {
-      font-size: 13px;
-      color: var(--light-mid);
-      font-style: italic;
-      max-width: 280px;
-      text-align: right;
-      line-height: 1.7;
-    }
+    section { padding: 120px 0; }
 
-    .docs-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+    /* ==================== NAVBAR ==================== */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 24px 40px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background 0.3s, padding 0.3s;
     }
-
-    .doc-card {
-      background: var(--cream);
-      border: 1px solid rgba(232, 196, 176, 0.25);
-      padding: 36px 30px 30px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.4s, transform 0.4s, box-shadow 0.4s;
-      cursor: none;
+    nav.scrolled {
+      background: rgba(6, 6, 8, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 16px 40px;
+      border-bottom: 1px solid var(--glass-border);
+    }
+    .logo {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #fff;
       text-decoration: none;
-      display: block;
     }
-
-    .doc-card:hover {
-      border-color: var(--blush);
-      transform: translateY(-6px);
-      box-shadow: 0 16px 40px rgba(46, 31, 26, 0.08);
+    .logo span { color: var(--neon-emerald); }
+    
+    /* ==================== HERO ==================== */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      text-align: center;
+      padding-top: 80px;
+      position: relative;
     }
-
-    .doc-card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(200, 125, 110, 0.06) 0%, transparent 60%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-    .doc-card:hover::before { opacity: 1; }
-
-    .doc-card-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 60px;
-      font-weight: 300;
-      color: rgba(46, 31, 26, 0.04);
-      position: absolute;
-      top: 8px; right: 20px;
+    .hero-content { max-width: 900px; z-index: 1; }
+    
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 8vw, 100px);
+      font-weight: 700;
       line-height: 1;
+      letter-spacing: -2px;
+      margin-bottom: 24px;
     }
-
-    .doc-card-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--deep);
-      color: var(--blush);
-      font-size: 9px;
-      letter-spacing: 0.15em;
+    .hero-subtitle {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+    }
+    .hero-meta {
+      display: flex; justify-content: center; gap: 40px;
+      font-family: var(--font-display);
+      font-size: 14px;
+      color: var(--text-dim);
+      letter-spacing: 1px;
       text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 2px;
-      margin-bottom: 20px;
+    }
+    .hero-meta div { display: flex; flex-direction: column; gap: 4px; }
+    .hero-meta span { color: var(--text-main); font-weight: 500; font-size: 16px; }
+
+    /* ==================== IDENTITY (ABOUT & GOALS) ==================== */
+    .identity-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    
+    .profile-card {
       position: relative;
+      height: 100%;
+      min-height: 400px;
+      overflow: hidden;
+      display: flex; flex-direction: column; justify-content: flex-end;
+    }
+    .profile-card img {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; object-fit: cover;
+      z-index: 0;
+      opacity: 0.8;
+      transition: transform 0.7s ease;
+    }
+    .profile-card:hover img { transform: scale(1.05); }
+    .profile-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, var(--bg-base) 0%, transparent 60%);
       z-index: 1;
     }
-
-    .doc-card-badge .badge-dot {
-      width: 5px; height: 5px;
-      border-radius: 50%;
-      background: var(--rose);
-      flex-shrink: 0;
+    .profile-info { position: relative; z-index: 2; }
+    .profile-info h3 { font-family: var(--font-display); font-size: 28px; margin-bottom: 12px; }
+    
+    .hobbies-wrapper { display: flex; gap: 12px; margin-top: 24px; }
+    .hobby-badge {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid var(--glass-border);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 13px;
+      display: flex; align-items: center; gap: 8px;
     }
 
-    .doc-card-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--deep);
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
+    .goals-wrapper { display: flex; flex-direction: column; gap: 24px; }
+    .goal-block {
+      background: rgba(255,255,255,0.015);
+      border-left: 2px solid var(--neon-blue);
+      padding: 24px;
+      border-radius: 0 16px 16px 0;
+    }
+    .goal-block h4 {
+      font-family: var(--font-display);
+      font-size: 20px;
+      color: var(--neon-blue);
+      margin-bottom: 16px;
+    }
+    .goal-block p { color: var(--text-muted); margin-bottom: 12px; font-size: 15px; }
+    .goal-block ul { list-style: none; color: var(--text-muted); font-size: 15px; }
+    .goal-block ul li {
+      position: relative; padding-left: 20px; margin-bottom: 10px;
+    }
+    .goal-block ul li::before {
+      content: '▹'; position: absolute; left: 0; color: var(--neon-blue);
+    }
+
+    /* ==================== DOCUMENTS ==================== */
+    .docs-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;
+    }
+    .doc-card {
+      text-decoration: none;
+      color: inherit;
+      display: flex; flex-direction: column; height: 100%;
+    }
+    .doc-number {
+      font-family: var(--font-display);
+      font-size: 64px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.03);
+      position: absolute; top: -10px; right: 20px;
+      line-height: 1;
+      transition: color 0.3s;
+    }
+    .doc-card:hover .doc-number { color: rgba(255,255,255,0.08); }
+    .doc-type {
+      font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--neon-emerald); margin-bottom: 16px; font-family: var(--font-display);
+    }
+    .doc-card h3 {
+      font-family: var(--font-display); font-size: 22px; margin-bottom: 12px;
       line-height: 1.3;
     }
+    .doc-card p {
+      color: var(--text-muted); font-size: 14px; flex-grow: 1; margin-bottom: 30px;
+    }
+    .doc-footer {
+      display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--glass-border);
+      padding-top: 16px; margin-top: auto;
+    }
+    .doc-size { font-size: 12px; color: var(--text-dim); }
+    .doc-dl {
+      font-size: 13px; font-family: var(--font-display); font-weight: 600;
+      color: #fff; display: flex; align-items: center; gap: 8px;
+    }
+    .doc-card:hover .doc-dl svg { transform: translateY(2px); }
 
-    .doc-card-desc {
-      font-size: 13px;
-      line-height: 1.8;
-      color: var(--mid);
-      position: relative;
-      z-index: 1;
-      margin-bottom: 20px;
+    /* ==================== AI CREATIVE ==================== */
+    .creative-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    .process-list { display: flex; flex-direction: column; gap: 20px; }
+    .process-item {
+      display: flex; gap: 24px; padding: 24px;
+      background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid transparent;
+      transition: all 0.3s;
+    }
+    .process-item:hover {
+      background: rgba(255,255,255,0.04); border-color: var(--glass-border);
+      transform: translateX(10px);
+    }
+    .process-item .step {
+      font-family: var(--font-display); font-size: 24px; font-weight: 700;
+      color: var(--neon-purple); line-height: 1;
+    }
+    .process-item h4 { font-family: var(--font-display); font-size: 18px; margin-bottom: 8px; }
+    .process-item p { font-size: 14px; color: var(--text-muted); }
+
+    .creative-visual { position: relative; }
+    .creative-visual .glass-panel {
+      background: linear-gradient(145deg, rgba(168,85,247,0.1), rgba(59,130,246,0.1));
+      border-color: rgba(168,85,247,0.2);
     }
 
-    .doc-card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid rgba(232, 196, 176, 0.2);
-      padding-top: 16px;
+    /* ==================== AI ETHICS ==================== */
+    .ethics-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;
     }
-
-    .doc-card-size {
-      font-size: 11px;
-      color: var(--light-mid);
-      letter-spacing: 0.08em;
+    .ethics-card {
+      padding: 30px;
+      background: linear-gradient(to bottom right, rgba(255,255,255,0.02), transparent);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
     }
-
-    .doc-card-download {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 11px;
-      color: var(--terracotta);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 500;
-      transition: gap 0.3s;
+    .ethics-card:hover { border-color: var(--neon-emerald); background: rgba(16,185,129,0.05); }
+    .ethics-card h4 {
+      font-family: var(--font-display); font-size: 18px; margin-bottom: 12px; color: #fff;
     }
-
-    .doc-card:hover .doc-card-download {
-      gap: 10px;
+    .ethics-card p { font-size: 14px; color: var(--text-muted); }
+    
+    /* ==================== SUMMARY ==================== */
+    .summary-section { text-align: center; }
+    .summary-quote {
+      font-family: var(--font-display); font-size: clamp(24px, 4vw, 36px);
+      line-height: 1.4; color: #fff; max-width: 800px; margin: 0 auto 60px;
     }
-
-    .doc-card-download .arrow {
-      display: inline-block;
-      transition: transform 0.3s;
+    .summary-quote span { color: var(--neon-purple); }
+    
+    .milestones {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
     }
-
-    .doc-card:hover .doc-card-download .arrow {
-      transform: translateX(3px);
+    .milestone {
+      padding: 40px 30px; text-align: left;
     }
+    .milestone h3 { font-family: var(--font-display); font-size: 20px; margin-bottom: 16px; color: var(--neon-blue); }
+    .milestone p { font-size: 14px; color: var(--text-muted); }
 
-    /* ─── AI CREATIVE ─── */
-    .ai-creative {
-      padding: 120px 80px;
-      background: var(--cream);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .ai-creative::before {
-      content: 'AI';
-      position: absolute;
-      left: -20px; top: -30px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(150px, 20vw, 260px);
-      font-weight: 300;
-      color: rgba(46, 31, 26, 0.025);
-      pointer-events: none;
-      user-select: none;
-      line-height: 1;
-    }
-
-    .ai-creative-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      margin-top: 50px;
-      align-items: start;
-    }
-
-    .ai-process {
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-    }
-
-    .process-step {
-      display: flex;
-      gap: 20px;
-      padding: 24px;
-      border: 1px solid rgba(232, 196, 176, 0.2);
-      background: var(--warm-white);
-      transition: border-color 0.4s, transform 0.3s;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .process-step:hover {
-      border-color: var(--blush);
-      transform: translateX(6px);
-    }
-
-    .process-step::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      width: 3px;
-      background: var(--rose);
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    .process-step:hover::before { opacity: 1; }
-
-    .step-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 28px;
-      font-weight: 300;
-      color: var(--blush);
-      min-width: 36px;
-      line-height: 1;
-    }
-
-    .step-content h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--deep);
-      margin-bottom: 6px;
-    }
-
-    .step-content p {
-      font-size: 13px;
-      line-height: 1.75;
-      color: var(--mid);
-    }
-
-    .ai-tools-showcase {
-      background: var(--deep);
-      padding: 40px 36px;
-      position: relative;
-    }
-
-    .ai-tools-showcase h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 26px;
-      font-weight: 400;
-      color: var(--blush);
-      margin-bottom: 28px;
-    }
-
-    .tool-item {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 16px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .tool-item:last-child { border-bottom: none; }
-
-    .tool-icon {
-      width: 42px; height: 42px;
-      border: 1px solid rgba(232, 196, 176, 0.25);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 18px;
-      flex-shrink: 0;
-    }
-
-    .tool-info h4 {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--warm-white);
-      margin-bottom: 3px;
-    }
-
-    .tool-info p {
-      font-size: 12px;
-      color: rgba(255,255,255,0.4);
-    }
-
-    .ai-product-note {
-      margin-top: 28px;
-      padding: 20px;
-      border: 1px solid rgba(232, 196, 176, 0.15);
-      font-size: 13px;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.5);
-      font-style: italic;
-    }
-
-    .ai-product-note strong {
-      color: var(--blush);
-      font-weight: 500;
-      font-style: normal;
-    }
-
-    /* ─── AI ETHICS ─── */
-    .ai-ethics {
-      padding: 120px 80px;
-      background: var(--deep);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .ai-ethics::before {
-      content: '';
-      position: absolute;
-      bottom: -120px; left: -120px;
-      width: 500px; height: 500px;
-      border-radius: 50%;
-      border: 1px solid rgba(232, 196, 176, 0.05);
-      pointer-events: none;
-    }
-
-    .ai-ethics .section-title { color: var(--warm-white); }
-    .ai-ethics .section-label { color: var(--light-mid); }
-
-    .ethics-intro {
-      max-width: 600px;
-      margin-top: 20px;
-      font-size: 14px;
-      line-height: 1.9;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 50px;
-    }
-
-    .principles-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-    }
-
-    .principle-card {
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 32px 28px;
-      position: relative;
-      overflow: hidden;
-      transition: border-color 0.4s, transform 0.3s;
-      cursor: none;
-    }
-
-    .principle-card:hover {
-      border-color: rgba(232, 196, 176, 0.25);
-      transform: translateY(-4px);
-    }
-
-    .principle-card::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(200, 125, 110, 0.06) 0%, transparent 50%);
-      opacity: 0;
-      transition: opacity 0.4s;
-    }
-    .principle-card:hover::before { opacity: 1; }
-
-    .principle-num {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 48px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.04);
-      position: absolute;
-      top: 6px; right: 16px;
-      line-height: 1;
-    }
-
-    .principle-card h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 400;
-      color: var(--blush);
-      margin-bottom: 10px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .principle-card p {
-      font-size: 13px;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.4);
-      position: relative;
-      z-index: 1;
-    }
-
-    .principle-card.wide {
-      grid-column: span 2;
-    }
-
-    .ethics-conclusion {
-      margin-top: 50px;
-      padding: 30px 36px;
-      border-left: 3px solid var(--rose);
-      background: rgba(200, 125, 110, 0.06);
-    }
-
-    .ethics-conclusion h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 22px;
-      font-weight: 400;
-      color: var(--blush);
-      margin-bottom: 12px;
-    }
-
-    .ethics-conclusion p {
-      font-size: 13px;
-      line-height: 1.85;
-      color: rgba(255,255,255,0.5);
-    }
-
-    /* ─── SUMMARY ─── */
-    .summary {
-      padding: 120px 80px;
-      background: var(--warm-white);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .summary::before {
-      content: '回顧';
-      position: absolute;
-      right: -10px; bottom: -20px;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(100px, 14vw, 180px);
-      font-weight: 300;
-      color: rgba(46, 31, 26, 0.025);
-      pointer-events: none;
-      user-select: none;
-    }
-
-    .summary-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      margin-top: 50px;
-      align-items: start;
-    }
-
-    .summary-reflection {
-      font-size: 14px;
-      line-height: 2;
-      color: var(--mid);
-    }
-
-    .summary-reflection p + p { margin-top: 16px; }
-
-    .summary-reflection blockquote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-style: italic;
-      color: var(--rose);
-      line-height: 1.6;
-      padding: 20px 0;
-      border-top: 1px solid var(--blush);
-      border-bottom: 1px solid var(--blush);
-      margin: 24px 0;
-    }
-
-    .summary-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    .summary-card {
-      padding: 28px 24px;
-      border: 1px solid rgba(232, 196, 176, 0.25);
-      background: var(--cream);
-      transition: border-color 0.3s, transform 0.3s;
-    }
-
-    .summary-card:hover {
-      border-color: var(--blush);
-      transform: translateX(6px);
-    }
-
-    .summary-card-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .summary-card-icon {
-      font-size: 22px;
-    }
-
-    .summary-card h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 600;
-      color: var(--deep);
-    }
-
-    .summary-card p {
-      font-size: 13px;
-      line-height: 1.85;
-      color: var(--mid);
-    }
-
-    .summary-card ul {
-      list-style: none;
-      margin-top: 8px;
-    }
-
-    .summary-card ul li {
-      font-size: 13px;
-      line-height: 1.85;
-      color: var(--mid);
-      padding-left: 16px;
-      position: relative;
-    }
-
-    .summary-card ul li::before {
-      content: '—';
-      position: absolute;
-      left: 0;
-      color: var(--blush);
-    }
-
-    /* ─── CONTACT ─── */
-    .contact {
-      background: var(--terracotta);
-      padding: 100px 80px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .contact::before {
-      content: 'CONNECT';
-      position: absolute;
-      right: -30px; top: 50%;
-      transform: translateY(-50%) rotate(90deg);
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 100px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.06);
-      pointer-events: none;
-      user-select: none;
-      white-space: nowrap;
-    }
-
-    .contact-left h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(36px, 5vw, 60px);
-      font-weight: 300;
-      color: white;
-      line-height: 1.15;
-    }
-    .contact-left h2 em {
-      font-style: italic;
-      color: rgba(255,255,255,0.6);
-    }
-
-    .contact-right {
-      display: flex; flex-direction: column; gap: 16px;
-    }
-
-    .contact-item {
-      display: flex; align-items: center; gap: 14px;
-      color: rgba(255,255,255,0.85);
-      font-size: 13px;
-      letter-spacing: 0.05em;
-    }
-    .contact-item .icon {
-      width: 36px; height: 36px;
-      border: 1px solid rgba(255,255,255,0.25);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 14px;
-      flex-shrink: 0;
-    }
-
-    /* ─── FOOTER ─── */
+    /* ==================== FOOTER ==================== */
     footer {
-      background: var(--ink);
-      padding: 40px 80px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      border-top: 1px solid var(--glass-border);
+      padding: 40px 0; margin-top: 80px;
+      text-align: center; color: var(--text-dim); font-size: 14px;
     }
+    footer span { color: #fff; font-family: var(--font-display); }
 
-    footer span {
-      font-size: 11px;
-      color: rgba(255,255,255,0.2);
-      letter-spacing: 0.15em;
-    }
-
-    .footer-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 18px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.4);
-      font-style: italic;
-    }
-
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
+    /* ==================== ANIMATIONS ==================== */
     .reveal {
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      opacity: 0; transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.active { opacity: 1; transform: translateY(0); }
 
-    /* ─── DIVIDER LINE ─── */
-    .divider {
-      width: 60px; height: 1px;
-      background: var(--blush);
-      margin: 20px 0;
-    }
-
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      .hero { grid-template-columns: 1fr; min-height: auto; }
-      .hero-left { min-height: 50vh; padding: 50px 36px 50px; }
-      .hero-right { padding: 50px 36px; }
-      .about { grid-template-columns: 1fr; padding: 80px 36px; gap: 50px; }
-      .hobbies { padding: 80px 36px; }
-      .hobbies-grid { grid-template-columns: 1fr; gap: 16px; }
-      .goals { grid-template-columns: 1fr; padding: 80px 36px; gap: 50px; }
-      .documents { padding: 80px 36px; }
-      .documents .section-header { flex-direction: column; align-items: flex-start; gap: 16px; }
-      .documents .section-header-right { text-align: left; }
-      .docs-grid { grid-template-columns: 1fr; gap: 16px; }
-      .ai-creative { padding: 80px 36px; }
-      .ai-creative-content { grid-template-columns: 1fr; gap: 40px; }
-      .ai-ethics { padding: 80px 36px; }
-      .principles-grid { grid-template-columns: 1fr; }
-      .principle-card.wide { grid-column: span 1; }
-      .summary { padding: 80px 36px; }
-      .summary-content { grid-template-columns: 1fr; gap: 40px; }
-      .contact { flex-direction: column; padding: 80px 36px; text-align: center; }
-      footer { flex-direction: column; gap: 10px; padding: 30px 36px; text-align: center; }
-      .about-visual { display: none; }
+    @media (max-width: 768px) {
+      .identity-grid, .creative-grid, .milestones { grid-template-columns: 1fr; }
+      .hero-title { font-size: 40px; }
+      .hero-meta { flex-direction: column; gap: 20px; }
+      .docs-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
+  <!-- Cursor & Background -->
+  <div class="cursor-dot" id="cursor-dot"></div>
+  <div class="cursor-glow" id="cursor-glow"></div>
+  
+  <div class="aurora-container">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+  <div class="noise-overlay"></div>
 
-  <!-- ─── HERO ─── -->
+  <!-- Navigation -->
+  <nav id="navbar">
+    <a href="#" class="logo hover-target">Phương<span>Liên</span></a>
+  </nav>
+
+  <!-- Hero Section -->
   <section class="hero">
-    <div class="hero-left">
-      <div class="bg-text">LIÊN</div>
-      <div class="hero-tag">Portfolio · 2025</div>
-      <h1 class="hero-name">
-        Lê Phương<br/><em>Liên</em>
-      </h1>
-      <p class="hero-id">25080089</p>
-      <div class="scroll-hint">Scroll để khám phá</div>
-    </div>
-    <div class="hero-right">
-      <p class="section-label" style="opacity:0;animation:fadeUp 0.8s 0.4s forwards">Ngành học</p>
-      <h2 class="hero-major">Marketing<br/>&amp; Truyền thông</h2>
-      <p class="hero-desc">
-        Một người học với niềm đam mê sáng tạo, luôn khao khát chinh phục những kiến thức mới và không ngừng hoàn thiện bản thân trong lĩnh vực truyền thông hiện đại.
-      </p>
-      <div class="hero-email">
-        <span>✉</span>
-        u25080089@hsb.edu.vn
+    <div class="container hero-content reveal">
+      <div class="section-tag">Digital Portfolio</div>
+      <h1 class="hero-title text-gradient">Kiến Tạo Giá Trị Từ<br>Dữ Liệu & Sáng Tạo</h1>
+      <p class="hero-subtitle">Một không gian lưu trữ và thể hiện tư duy làm chủ công nghệ, nhạy bén với số liệu và sáng tạo nội dung của một Marketer thời đại số.</p>
+      <div class="hero-meta">
+        <div>Họ và Tên <span>Lê Phương Liên</span></div>
+        <div>Mã sinh viên <span>25080089</span></div>
+        <div>Email <span>u25080089@hsb.edu.vn</span></div>
+        <div>Chuyên ngành <span>Marketing & Truyền thông</span></div>
       </div>
     </div>
   </section>
 
-  <!-- ─── ABOUT ─── -->
-  <section class="about">
-    <div class="about-visual reveal">
-      <div class="about-card about-card-main">
-        <img src="images/profile.jpg" style="width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; z-index: 0;" alt="Lê Phương Liên">
-        <div style="position: absolute; inset: 0; background: linear-gradient(to top, rgba(46,31,26,0.95), rgba(46,31,26,0.1)); z-index: 1;"></div>
-        <p style="position: relative; z-index: 2;">Sinh viên Marketing &amp;<br/>Truyền thông — Đam mê sáng tạo &amp; phát triển bản thân.</p>
-      </div>
-      <div class="about-card about-card-gold">
-        <span>★</span>
-      </div>
-      <div class="about-card about-card-accent">
-        <svg fill="none" stroke-width="1.2" viewBox="0 0 48 48">
-          <circle cx="24" cy="24" r="20"/>
-          <path d="M24 14 v10 l6 4"/>
-        </svg>
-      </div>
-    </div>
-    <div class="about-text">
-      <p class="section-label reveal">Về tôi</p>
-      <h2 class="section-title reveal">Xin chào,<br/>tôi là <em>Phương Liên</em></h2>
-      <div class="divider reveal"></div>
-      <div class="about-body reveal">
-        <p>Tôi là Lê Phương Liên — sinh viên ngành Marketing và Truyền thông, một người luôn mang trong mình sự tò mò và niềm đam mê với thế giới sáng tạo.</p>
-        <p>Tôi tin rằng mỗi ngày là một cơ hội để học hỏi điều mới, và hành trình hoàn thiện bản thân không bao giờ có điểm kết thúc.</p>
-        <p>Với tôi, Marketing không chỉ là công việc — đó là nghệ thuật kết nối con người với những giá trị đích thực.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── HOBBIES ─── -->
-  <section class="hobbies">
-    <p class="section-label reveal">Sở thích</p>
-    <h2 class="section-title reveal">Những điều<br/>tôi <em>yêu thích</em></h2>
-    <div class="hobbies-grid">
-      <div class="hobby-card reveal">
-        <div class="hobby-num">01</div>
-        <div class="hobby-icon">🍳</div>
-        <h3 class="hobby-title">Nấu ăn</h3>
-        <p class="hobby-desc">Bếp là nơi tôi tìm thấy sự thư giãn và sáng tạo. Mỗi món ăn là một tác phẩm nhỏ, chứa đựng tình yêu và tâm huyết.</p>
-      </div>
-      <div class="hobby-card reveal">
-        <div class="hobby-num">02</div>
-        <div class="hobby-icon">💰</div>
-        <h3 class="hobby-title">Tài chính</h3>
-        <p class="hobby-desc">Quan tâm đến việc quản lý tài chính cá nhân và đầu tư. Điều này giúp mình rèn luyện tư duy chiến lược và sự chủ động trong cuộc sống.</p>
-      </div>
-      <div class="hobby-card reveal">
-        <div class="hobby-num">03</div>
-        <div class="hobby-icon">✈️</div>
-        <h3 class="hobby-title">Du lịch</h3>
-        <p class="hobby-desc">Khám phá những vùng đất, trải nghiệm những giá trị văn hóa đa dạng. Mỗi chuyến đi là một bài học thực tế và nguồn cảm hứng mới.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── GOALS ─── -->
-  <section class="goals">
-    <div class="goals-left">
-      <p class="section-label reveal">Định hướng</p>
-      <h2 class="section-title reveal">Mục tiêu &amp;<br/><em>Định hướng</em><br/>tương lai</h2>
-      <blockquote class="goals-quote reveal">
-        "Đặt học tập lên hàng đầu — không ngừng trau dồi và phát triển để trở thành phiên bản hoàn hảo nhất của chính mình."
-      </blockquote>
-    </div>
-    <div class="goals-right">
-      <div class="goal-item">
-        <span class="goal-num">01</span>
-        <div class="goal-content">
-          <h3>Mục tiêu học tập và định hướng phát triển cá nhân</h3>
-          <p>Mục tiêu của mình là không ngừng nâng cao kiến thức chuyên môn, phát triển các kỹ năng số và khả năng ứng dụng công nghệ vào học tập cũng như công việc. Mình cũng quan tâm đến việc sử dụng AI và các công cụ số một cách hiệu quả để nâng cao năng suất và khả năng sáng tạo.</p>
-          <p style="margin-top: 10px;">Trong tương lai, mình mong muốn trở thành một người có tư duy hiện đại, chủ động trong công việc và có khả năng quản lý tài chính tốt, đồng thời tiếp tục theo đuổi niềm đam mê khám phá những vùng đất mới và trải nghiệm những giá trị văn hóa đa dạng.</p>
+  <!-- Identity Section (About & Goals) -->
+  <section id="identity">
+    <div class="container">
+      <div class="section-tag reveal">Identity</div>
+      <h2 class="section-title reveal">Định Hình <span class="text-gradient-neon">Phong Cách</span></h2>
+      
+      <div class="identity-grid">
+        <div class="glass-panel profile-card reveal hover-target">
+          <img src="images/profile.jpg" alt="Lê Phương Liên" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'100%25\' height=\'100%25\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%23111\'/%3E%3C/svg%3E';">
+          <div class="profile-overlay"></div>
+          <div class="profile-info">
+            <h3>Lê Phương Liên</h3>
+            <p style="color: var(--text-muted); font-size: 15px;">Sinh viên Marketing & Truyền thông tại HSB. Đam mê khai phá sức mạnh của dữ liệu và Trí tuệ nhân tạo để kiến tạo các chiến lược nội dung đột phá.</p>
+            <div class="hobbies-wrapper">
+              <div class="hobby-badge">🍳 Nấu ăn</div>
+              <div class="hobby-badge">💰 Tài chính</div>
+              <div class="hobby-badge">✈️ Du lịch</div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="goal-item" style="margin-top: 50px;">
-        <span class="goal-num">02</span>
-        <div class="goal-content">
-          <h3>Mục tiêu của Portfolio</h3>
-          <p>Portfolio này được xây dựng nhằm:</p>
-          <ul style="list-style-type: none; margin-top: 12px;">
-            <li style="margin-bottom: 10px; position: relative; padding-left: 18px;"><span style="position: absolute; left: 0; color: var(--rose);">—</span> Tổng hợp các sản phẩm học tập và dự án cá nhân.</li>
-            <li style="margin-bottom: 10px; position: relative; padding-left: 18px;"><span style="position: absolute; left: 0; color: var(--rose);">—</span> Thể hiện quá trình phát triển kỹ năng số và ứng dụng AI trong học tập.</li>
-            <li style="margin-bottom: 10px; position: relative; padding-left: 18px;"><span style="position: absolute; left: 0; color: var(--rose);">—</span> Lưu trữ những thành quả, kinh nghiệm và hoạt động nổi bật.</li>
-            <li style="margin-bottom: 10px; position: relative; padding-left: 18px;"><span style="position: absolute; left: 0; color: var(--rose);">—</span> Xây dựng một không gian trực tuyến để chia sẻ quá trình học tập và phát triển bản thân.</li>
-            <li style="margin-bottom: 10px; position: relative; padding-left: 18px;"><span style="position: absolute; left: 0; color: var(--rose);">—</span> Ghi lại hành trình trưởng thành, học hỏi và khám phá của mình.</li>
-          </ul>
+        
+        <div class="goals-wrapper reveal">
+          <div class="goal-block">
+            <h4>Mục tiêu học tập và định hướng phát triển cá nhân</h4>
+            <p>Mục tiêu của mình là không ngừng nâng cao kiến thức chuyên môn, phát triển các kỹ năng số và khả năng ứng dụng công nghệ vào học tập cũng như công việc. Mình cũng quan tâm đến việc sử dụng AI và các công cụ số một cách hiệu quả để nâng cao năng suất và khả năng sáng tạo.</p>
+            <p>Trong tương lai, mình mong muốn trở thành một người có tư duy hiện đại, chủ động trong công việc và có khả năng quản lý tài chính tốt, đồng thời tiếp tục theo đuổi niềm đam mê khám phá những vùng đất mới và trải nghiệm những giá trị văn hóa đa dạng.</p>
+          </div>
+          <div class="goal-block" style="border-color: var(--neon-emerald);">
+            <h4 style="color: var(--neon-emerald);">Mục tiêu của Portfolio</h4>
+            <p>Portfolio này được xây dựng nhằm:</p>
+            <ul>
+              <li>Tổng hợp các sản phẩm học tập và dự án cá nhân.</li>
+              <li>Thể hiện quá trình phát triển kỹ năng số và ứng dụng AI trong học tập.</li>
+              <li>Lưu trữ những thành quả, kinh nghiệm và hoạt động nổi bật.</li>
+              <li>Xây dựng một không gian trực tuyến để chia sẻ quá trình học tập và phát triển bản thân.</li>
+              <li>Ghi lại hành trình trưởng thành, học hỏi và khám phá của mình.</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── DOCUMENTS ─── -->
-  <section class="documents">
-    <div class="section-header">
-      <div>
-        <p class="section-label reveal">Tài liệu</p>
-        <h2 class="section-title reveal">Bài tập &amp;<br/><em>Tài liệu</em> học tập</h2>
+  <!-- Documents Section -->
+  <section id="documents">
+    <div class="container">
+      <div class="section-tag reveal">Showcase</div>
+      <h2 class="section-title reveal">Hồ Sơ <span class="text-gradient-neon">Dự Án Số</span></h2>
+      
+      <div class="docs-grid">
+        <a href="documents/bai1.docx" class="glass-panel doc-card reveal hover-target" download>
+          <div class="doc-number">01</div>
+          <div class="doc-type">Tài liệu Word</div>
+          <h3>Quản Lý Dữ Liệu Khoa Học</h3>
+          <p>Tối ưu hóa cấu trúc lưu trữ và thiết lập quy tắc đặt tên tệp chuẩn hóa, rút ngắn thời gian tra cứu và quản lý tài sản số.</p>
+          <div class="doc-footer">
+            <span class="doc-size">9.5 MB</span>
+            <span class="doc-dl">Tải về <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span>
+          </div>
+        </a>
+
+        <a href="documents/bai2.pdf" class="glass-panel doc-card reveal hover-target" download>
+          <div class="doc-number">02</div>
+          <div class="doc-type">Tài liệu PDF</div>
+          <h3>Khai Thác & Đánh Giá Thông Tin</h3>
+          <p>Ứng dụng toán tử tìm kiếm nâng cao để thu thập thông tin học thuật và thiết lập ma trận đánh giá độ tin cậy của nguồn dữ liệu.</p>
+          <div class="doc-footer">
+            <span class="doc-size">185 KB</span>
+            <span class="doc-dl">Tải về <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span>
+          </div>
+        </a>
+
+        <a href="documents/bai3.pdf" class="glass-panel doc-card reveal hover-target" download>
+          <div class="doc-number">03</div>
+          <div class="doc-type">Tài liệu PDF</div>
+          <h3>Kỹ Thuật Prompt Engineering</h3>
+          <p>Làm chủ AI thông qua việc thiết kế Prompt có bối cảnh, vai trò (Role-playing) và cấu trúc tư duy logic đa tầng.</p>
+          <div class="doc-footer">
+            <span class="doc-size">232 KB</span>
+            <span class="doc-dl">Tải về <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span>
+          </div>
+        </a>
+
+        <a href="documents/bai4.pdf" class="glass-panel doc-card reveal hover-target" download>
+          <div class="doc-number">04</div>
+          <div class="doc-type">Tài liệu PDF</div>
+          <h3>Hợp Tác & Điều Phối Trực Tuyến</h3>
+          <p>Quản trị dự án nhóm mượt mà thông qua việc tích hợp sâu các nền tảng đám mây như Trello, Google Docs và Drive.</p>
+          <div class="doc-footer">
+            <span class="doc-size">334 KB</span>
+            <span class="doc-dl">Tải về <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span>
+          </div>
+        </a>
+
+        <a href="documents/bai5.docx" class="glass-panel doc-card reveal hover-target" download>
+          <div class="doc-number">05</div>
+          <div class="doc-type">Tài liệu Word</div>
+          <h3>Sáng Tạo Nội Dung Với AI</h3>
+          <p>Đẩy nhanh tốc độ sản xuất nội dung truyền thông số (hình ảnh, video, kịch bản) nhờ sự cộng tác toàn diện với AI tạo sinh.</p>
+          <div class="doc-footer">
+            <span class="doc-size">9.3 MB</span>
+            <span class="doc-dl">Tải về <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span>
+          </div>
+        </a>
+
+        <a href="documents/bai6.pdf" class="glass-panel doc-card reveal hover-target" download>
+          <div class="doc-number">06</div>
+          <div class="doc-type">Tài liệu PDF</div>
+          <h3>Trách Nhiệm & Đạo Đức AI</h3>
+          <p>Thiết lập khung nguyên tắc sử dụng AI cá nhân, đảm bảo tính liêm chính học thuật và bảo mật dữ liệu tuyệt đối.</p>
+          <div class="doc-footer">
+            <span class="doc-size">494 KB</span>
+            <span class="doc-dl">Tải về <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></span>
+          </div>
+        </a>
       </div>
-      <p class="section-header-right reveal">Tổng hợp các bài tập và tài liệu trong quá trình học tập tại HSB</p>
-    </div>
-    <div class="docs-grid">
-      <a href="documents/bai1.docx" class="doc-card reveal" download>
-        <div class="doc-card-num">01</div>
-        <div class="doc-card-badge"><span class="badge-dot"></span>DOCX</div>
-        <h3 class="doc-card-title">Bài tập 1: Quản Lý Dữ Liệu Khoa Học</h3>
-        <p class="doc-card-desc">Tối ưu hóa cấu trúc lưu trữ và thiết lập quy tắc đặt tên tệp chuẩn hóa.</p>
-        <div class="doc-card-footer">
-          <span class="doc-card-size">9.5 MB</span>
-          <span class="doc-card-download">Tải về <span class="arrow">→</span></span>
-        </div>
-      </a>
-      <a href="documents/bai2.pdf" class="doc-card reveal" download>
-        <div class="doc-card-num">02</div>
-        <div class="doc-card-badge"><span class="badge-dot"></span>PDF</div>
-        <h3 class="doc-card-title">Bài tập 2: Khai Thác & Đánh Giá Thông Tin</h3>
-        <p class="doc-card-desc">Kết quả tìm kiếm học thuật bằng các toán tử nâng cao và bảng đánh giá nguồn tin đã thực hiện.</p>
-        <div class="doc-card-footer">
-          <span class="doc-card-size">185 KB</span>
-          <span class="doc-card-download">Tải về <span class="arrow">→</span></span>
-        </div>
-      </a>
-      <a href="documents/bai3.pdf" class="doc-card reveal" download>
-        <div class="doc-card-num">03</div>
-        <div class="doc-card-badge"><span class="badge-dot"></span>PDF</div>
-        <h3 class="doc-card-title">Bài tập 3: Kỹ Thuật Prompt Engineering</h3>
-        <p class="doc-card-desc">Làm chủ AI thông qua Prompt có bối cảnh và vai trò (Role-playing).</p>
-        <div class="doc-card-footer">
-          <span class="doc-card-size">232 KB</span>
-          <span class="doc-card-download">Tải về <span class="arrow">→</span></span>
-        </div>
-      </a>
-      <a href="documents/bai4.pdf" class="doc-card reveal" download>
-        <div class="doc-card-num">04</div>
-        <div class="doc-card-badge"><span class="badge-dot"></span>PDF</div>
-        <h3 class="doc-card-title">Bài tập 4: Hợp Tác & Điều Phối Trực Tuyến</h3>
-        <p class="doc-card-desc">Sử dụng bộ công cụ đám mây như Trello, Docs, Drive để quản lý dự án nhóm hiệu quả.</p>
-        <div class="doc-card-footer">
-          <span class="doc-card-size">334 KB</span>
-          <span class="doc-card-download">Tải về <span class="arrow">→</span></span>
-        </div>
-      </a>
-      <a href="documents/bai5.docx" class="doc-card reveal" download>
-        <div class="doc-card-num">05</div>
-        <div class="doc-card-badge"><span class="badge-dot"></span>DOCX</div>
-        <h3 class="doc-card-title">Bài tập 5: Sáng Tạo Nội Dung Với AI</h3>
-        <p class="doc-card-desc">Sản phẩm video truyền thông hoàn thiện được hỗ trợ bởi AI — hình ảnh, video và bài viết.</p>
-        <div class="doc-card-footer">
-          <span class="doc-card-size">9.3 MB</span>
-          <span class="doc-card-download">Tải về <span class="arrow">→</span></span>
-        </div>
-      </a>
-      <a href="documents/bai6.pdf" class="doc-card reveal" download>
-        <div class="doc-card-num">06</div>
-        <div class="doc-card-badge"><span class="badge-dot"></span>PDF</div>
-        <h3 class="doc-card-title">Bài tập 6: Trách Nhiệm & Đạo Đức AI</h3>
-        <p class="doc-card-desc">Xây dựng khung nguyên tắc cá nhân về sử dụng AI có trách nhiệm dựa trên chính sách HSB/VNU.</p>
-        <div class="doc-card-footer">
-          <span class="doc-card-size">494 KB</span>
-          <span class="doc-card-download">Tải về <span class="arrow">→</span></span>
-        </div>
-      </a>
     </div>
   </section>
 
-  <!-- ─── AI CREATIVE ─── -->
-  <section class="ai-creative">
-    <p class="section-label reveal">Nhiệm vụ 5</p>
-    <h2 class="section-title reveal">Sáng tạo nội dung<br/>với <em>AI</em></h2>
-    <div class="ai-creative-content">
-      <div class="ai-process">
-        <div class="process-step reveal">
-          <span class="step-num">01</span>
-          <div class="step-content">
-            <h4>Xác định ý tưởng &amp; mục tiêu</h4>
-            <p>Lên ý tưởng cho sản phẩm nội dung số: xác định đối tượng mục tiêu, thông điệp cần truyền tải và định dạng nội dung phù hợp (hình ảnh, video, bài viết).</p>
+  <!-- AI Creative Section -->
+  <section id="ai-creative">
+    <div class="container">
+      <div class="section-tag reveal">Quy trình Nhiệm vụ 5</div>
+      <h2 class="section-title reveal">Khai Phóng Sáng Tạo<br><span class="text-gradient-neon">Cùng AI</span></h2>
+      
+      <div class="creative-grid">
+        <div class="process-list reveal">
+          <div class="process-item">
+            <div class="step">01</div>
+            <div>
+              <h4>Định Vị Ý Tưởng (Insight & Strategy)</h4>
+              <p>Khảo sát đối tượng mục tiêu và thiết lập chiến lược nội dung. Định hướng rõ ràng thông điệp cốt lõi trước khi yêu cầu AI can thiệp.</p>
+            </div>
+          </div>
+          <div class="process-item">
+            <div class="step">02</div>
+            <div>
+              <h4>Prompt Đa Tầng (Multi-layered Prompts)</h4>
+              <p>Xây dựng hệ thống prompt theo cấu trúc: Vai trò + Ngữ cảnh + Ràng buộc + Định dạng đầu ra để ChatGPT tạo ra kịch bản chính xác nhất.</p>
+            </div>
+          </div>
+          <div class="process-item">
+            <div class="step">03</div>
+            <div>
+              <h4>Visual Generation (Thiết kế & Dựng hình)</h4>
+              <p>Sử dụng Canva AI và các công cụ tạo ảnh để hiện thực hóa kịch bản thành chuỗi hình ảnh/video có tính thẩm mỹ và chuyên môn cao.</p>
+            </div>
+          </div>
+          <div class="process-item">
+            <div class="step">04</div>
+            <div>
+              <h4>Human Touch (Kiểm duyệt & Tinh chỉnh)</h4>
+              <p>Con người là bộ lọc cuối cùng. Tinh chỉnh văn phong, điều chỉnh nhịp điệu video và thổi hồn cảm xúc vào sản phẩm vô tri của máy móc.</p>
+            </div>
           </div>
         </div>
-        <div class="process-step reveal">
-          <span class="step-num">02</span>
-          <div class="step-content">
-            <h4>Viết Prompt &amp; tạo nội dung thô</h4>
-            <p>Sử dụng kỹ thuật Prompt Engineering để tạo nội dung ban đầu với ChatGPT — bao gồm kịch bản, caption, và ý tưởng hình ảnh. Cải tiến prompt qua nhiều vòng lặp.</p>
+        
+        <div class="creative-visual reveal">
+          <div class="glass-panel">
+            <h3 style="font-family: var(--font-display); font-size: 24px; margin-bottom: 20px;">Hệ Sinh Thái Công Cụ</h3>
+            <ul style="list-style: none; display: flex; flex-direction: column; gap: 16px;">
+              <li style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 24px;">🤖</span>
+                <div><strong style="color: #fff;">ChatGPT</strong> <span style="color: var(--text-muted); font-size: 14px;">- Brainstorm & Viết kịch bản</span></div>
+              </li>
+              <li style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 24px;">🎨</span>
+                <div><strong style="color: #fff;">Canva AI</strong> <span style="color: var(--text-muted); font-size: 14px;">- Xử lý đồ họa & Dựng video</span></div>
+              </li>
+              <li style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 24px;">✍️</span>
+                <div><strong style="color: #fff;">Grammarly</strong> <span style="color: var(--text-muted); font-size: 14px;">- Chuẩn hóa văn phong</span></div>
+              </li>
+            </ul>
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--glass-border); font-size: 14px; color: var(--text-dim); font-style: italic;">
+              Sự kết hợp giữa tư duy chiến lược của con người và tốc độ xử lý của AI giúp giảm 60% thời gian sản xuất nội dung.
+            </div>
           </div>
-        </div>
-        <div class="process-step reveal">
-          <span class="step-num">03</span>
-          <div class="step-content">
-            <h4>Tạo hình ảnh &amp; thiết kế</h4>
-            <p>Dùng Canva AI và các công cụ AI tạo sinh hình ảnh để thiết kế visual content. Chỉnh sửa, phối màu và tối ưu bố cục cho sản phẩm cuối cùng.</p>
-          </div>
-        </div>
-        <div class="process-step reveal">
-          <span class="step-num">04</span>
-          <div class="step-content">
-            <h4>Biên tập &amp; hoàn thiện</h4>
-            <p>Review lại toàn bộ sản phẩm, chỉnh sửa nội dung cho phù hợp với thương hiệu cá nhân. Đảm bảo tính nhất quán và chất lượng chuyên nghiệp.</p>
-          </div>
-        </div>
-      </div>
-      <div class="ai-tools-showcase reveal">
-        <h3>Công cụ AI đã sử dụng</h3>
-        <div class="tool-item">
-          <div class="tool-icon">🤖</div>
-          <div class="tool-info">
-            <h4>ChatGPT</h4>
-            <p>Tạo kịch bản, viết caption, brainstorm ý tưởng sáng tạo</p>
-          </div>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon">🎨</div>
-          <div class="tool-info">
-            <h4>Canva AI</h4>
-            <p>Thiết kế đồ họa, tạo template và visual content</p>
-          </div>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon">🖼️</div>
-          <div class="tool-info">
-            <h4>AI Image Generator</h4>
-            <p>Tạo hình ảnh minh họa từ mô tả văn bản</p>
-          </div>
-        </div>
-        <div class="tool-item">
-          <div class="tool-icon">✍️</div>
-          <div class="tool-info">
-            <h4>Grammarly / QuillBot</h4>
-            <p>Kiểm tra ngữ pháp, paraphrase và cải thiện văn phong</p>
-          </div>
-        </div>
-        <div class="ai-product-note">
-          <strong>Sản phẩm cuối cùng:</strong> Bộ nội dung truyền thông số bao gồm bài viết, hình ảnh thiết kế và kế hoạch đăng tải — tất cả được hỗ trợ bởi các công cụ AI, thể hiện khả năng tận dụng tối đa công nghệ trong sáng tạo nội dung.
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── AI ETHICS ─── -->
-  <section class="ai-ethics">
-    <p class="section-label reveal">Nhiệm vụ 6</p>
-    <h2 class="section-title reveal">AI có <em>trách nhiệm</em></h2>
-    <p class="ethics-intro reveal">Bộ nguyên tắc cá nhân về việc sử dụng AI có trách nhiệm — được xây dựng dựa trên nghiên cứu về đạo đức AI và kinh nghiệm thực tế trong quá trình học tập.</p>
-    <div class="principles-grid">
-      <div class="principle-card reveal">
-        <div class="principle-num">01</div>
-        <h3>Minh bạch trong sử dụng</h3>
-        <p>Luôn công khai khi sử dụng AI trong công việc học tập. Ghi rõ công cụ AI đã dùng, mục đích sử dụng và mức độ can thiệp của AI vào sản phẩm cuối cùng.</p>
-      </div>
-      <div class="principle-card reveal">
-        <div class="principle-num">02</div>
-        <h3>Kiểm chứng thông tin</h3>
-        <p>Không tin tưởng tuyệt đối vào kết quả từ AI. Luôn kiểm tra, đối chiếu thông tin với nguồn đáng tin cậy trước khi sử dụng cho mục đích học thuật.</p>
-      </div>
-      <div class="principle-card reveal">
-        <div class="principle-num">03</div>
-        <h3>Tôn trọng bản quyền</h3>
-        <p>Không sử dụng AI để sao chép hoặc đạo văn. Đảm bảo nội dung AI tạo ra được chỉnh sửa, bổ sung giá trị cá nhân và trích dẫn nguồn đúng quy cách.</p>
-      </div>
-      <div class="principle-card reveal">
-        <div class="principle-num">04</div>
-        <h3>Bảo vệ dữ liệu cá nhân</h3>
-        <p>Không chia sẻ thông tin nhạy cảm, dữ liệu cá nhân của mình hoặc người khác lên các nền tảng AI. Bảo vệ quyền riêng tư trong mọi tương tác.</p>
-      </div>
-      <div class="principle-card reveal">
-        <div class="principle-num">05</div>
-        <h3>AI là công cụ hỗ trợ, không thay thế</h3>
-        <p>Sử dụng AI như một trợ lý để nâng cao hiệu suất, không phải để thay thế quá trình tư duy và học tập. Luôn duy trì khả năng phân tích độc lập.</p>
-      </div>
-      <div class="principle-card reveal">
-        <div class="principle-num">06</div>
-        <h3>Công bằng &amp; không thiên vị</h3>
-        <p>Nhận thức rằng AI có thể chứa bias từ dữ liệu huấn luyện. Luôn đánh giá kết quả một cách phản biện và tránh lan truyền các nội dung thiên vị.</p>
-      </div>
-      <div class="principle-card wide reveal">
-        <div class="principle-num">07</div>
-        <h3>Sử dụng AI vì lợi ích cộng đồng</h3>
-        <p>Ứng dụng AI để tạo ra giá trị tích cực cho xã hội. Trong lĩnh vực Marketing &amp; Truyền thông, cam kết không sử dụng AI để tạo thông tin sai lệch, quảng cáo gây hiểu lầm hoặc thao túng người tiêu dùng.</p>
-      </div>
-    </div>
-    <div class="ethics-conclusion reveal">
-      <h3>Đề xuất giải pháp cho thách thức đạo đức AI</h3>
-      <p>Các cơ sở giáo dục cần xây dựng chính sách rõ ràng về việc sử dụng AI trong học tập — bao gồm hướng dẫn cụ thể về mức độ sử dụng cho phép, yêu cầu trích dẫn AI, và các buổi đào tạo về đạo đức AI. Sinh viên cần được trang bị tư duy phản biện để đánh giá và sử dụng AI một cách có trách nhiệm, thay vì cấm đoán hoàn toàn.</p>
-    </div>
-  </section>
-
-  <!-- ─── SUMMARY ─── -->
-  <section class="summary">
-    <p class="section-label reveal">Tổng kết</p>
-    <h2 class="section-title reveal">Nhìn lại<br/><em>hành trình</em></h2>
-    <div class="summary-content">
-      <div class="summary-reflection reveal">
-        <p>Quá trình xây dựng Portfolio này là một hành trình đầy ý nghĩa. Từ một sinh viên mới bước chân vào ngành Marketing &amp; Truyền thông, tôi đã được trải nghiệm và học hỏi rất nhiều điều mới mẻ về công nghệ số và trí tuệ nhân tạo.</p>
-        <p>Mỗi bài tập không chỉ là một nhiệm vụ cần hoàn thành, mà còn là cơ hội để tôi khám phá khả năng của bản thân. Từ việc quản lý tệp tin một cách khoa học, đến việc viết Prompt hiệu quả, hay sáng tạo nội dung với AI — tất cả đều giúp tôi trưởng thành hơn.</p>
-        <blockquote>"Hành trình vạn dặm bắt đầu từ một bước chân. Portfolio này chính là bước chân đầu tiên trên con đường chinh phục thế giới số."</blockquote>
-        <p>Thách thức lớn nhất tôi gặp phải là việc cân bằng giữa sự sáng tạo cá nhân và công cụ AI. Tôi nhận ra rằng AI là một trợ thủ đắc lực, nhưng giá trị thực sự nằm ở cách ta biết khai thác và đặt dấu ấn riêng vào mỗi sản phẩm.</p>
-      </div>
-      <div class="summary-cards">
-        <div class="summary-card reveal">
-          <div class="summary-card-header">
-            <span class="summary-card-icon">📚</span>
-            <h3>Kiến thức đã học</h3>
-          </div>
-          <ul>
-            <li>Quản lý tệp tin &amp; thư mục chuyên nghiệp</li>
-            <li>Kỹ năng tìm kiếm &amp; đánh giá thông tin học thuật</li>
-            <li>Kỹ thuật Prompt Engineering hiệu quả</li>
-            <li>Hợp tác trực tuyến &amp; quản lý dự án nhóm</li>
-            <li>Sáng tạo nội dung số với công cụ AI</li>
-            <li>Sử dụng AI có trách nhiệm &amp; đạo đức</li>
-          </ul>
+  <!-- AI Ethics Section -->
+  <section id="ai-ethics">
+    <div class="container">
+      <div class="section-tag reveal">Triết lý Nhiệm vụ 6</div>
+      <h2 class="section-title reveal">Tuyên Ngôn Đạo Đức<br><span class="text-gradient-neon">Kỷ Nguyên Số</span></h2>
+      
+      <div class="ethics-grid reveal">
+        <div class="ethics-card hover-target">
+          <h4>1. Minh bạch tuyệt đối</h4>
+          <p>Luôn khai báo trung thực các công cụ AI đã tham gia vào quá trình tạo ra sản phẩm học thuật hay thương mại.</p>
         </div>
-        <div class="summary-card reveal">
-          <div class="summary-card-header">
-            <span class="summary-card-icon">⚡</span>
-            <h3>Thách thức đã vượt qua</h3>
-          </div>
-          <ul>
-            <li>Làm quen với các công cụ AI hoàn toàn mới</li>
-            <li>Xây dựng website portfolio từ đầu</li>
-            <li>Cân bằng giữa sáng tạo cá nhân và hỗ trợ AI</li>
-            <li>Quản lý thời gian và hoàn thành 6 bài tập</li>
-          </ul>
+        <div class="ethics-card hover-target">
+          <h4>2. Tư duy phản biện</h4>
+          <p>Không thỏa hiệp với "ảo giác AI". Mọi dữ liệu đầu ra phải được đối chiếu và xác thực từ các nguồn uy tín.</p>
         </div>
-        <div class="summary-card reveal">
-          <div class="summary-card-header">
-            <span class="summary-card-icon">🚀</span>
-            <h3>Áp dụng trong tương lai</h3>
-          </div>
-          <p>Tôi sẽ tiếp tục ứng dụng các kỹ năng số đã học vào lĩnh vực Marketing &amp; Truyền thông — từ việc sử dụng AI để nghiên cứu thị trường, sáng tạo nội dung, đến việc phân tích dữ liệu và tối ưu chiến lược truyền thông. Đồng thời, luôn tuân thủ các nguyên tắc đạo đức AI đã cam kết.</p>
+        <div class="ethics-card hover-target">
+          <h4>3. Tôn trọng bản quyền</h4>
+          <p>Từ chối việc dùng AI để sao chép chất xám. AI là công cụ gợi ý, không phải cỗ máy đạo văn.</p>
+        </div>
+        <div class="ethics-card hover-target">
+          <h4>4. Bảo mật dữ liệu</h4>
+          <p>Nhạy bén trong việc bảo vệ dữ liệu cá nhân và thông tin nội bộ khi giao tiếp với các mô hình ngôn ngữ lớn.</p>
+        </div>
+        <div class="ethics-card hover-target">
+          <h4>5. Trợ lý, không phải Người thay thế</h4>
+          <p>Dùng AI để giải phóng sức lao động, lấy thời gian đó tập trung vào tư duy sáng tạo bậc cao.</p>
+        </div>
+        <div class="ethics-card hover-target">
+          <h4>6. Giá trị cộng đồng</h4>
+          <p>Cam kết sử dụng năng lực công nghệ để lan tỏa thông tin tích cực, nói không với việc tạo tin giả thao túng đám đông.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── CONTACT ─── -->
-  <section class="contact">
-    <div class="contact-left">
-      <h2>Kết nối<br/>cùng <em>tôi</em></h2>
-    </div>
-    <div class="contact-right">
-      <div class="contact-item">
-        <div class="icon">✉</div>
-        u25080089@hsb.edu.vn
-      </div>
-
-      <div class="contact-item">
-        <div class="icon">📖</div>
-        Marketing &amp; Truyền thông
-      </div>
-      <div class="contact-item">
-        <div class="icon">🎓</div>
-        <div>
-          <p style="font-weight: 500; margin-bottom: 4px;">Trường Quản Trị và Kinh Doanh</p>
-          <p style="font-size: 13px; color: #9C7A72;">ĐẠI HỌC QUỐC GIA HÀ NỘI</p>
+  <!-- Summary Section -->
+  <section id="summary" class="summary-section">
+    <div class="container">
+      <h2 class="summary-quote reveal">
+        "Công nghệ không định hình chúng ta. Cách chúng ta <span>sử dụng công nghệ</span> mới là điều làm nên sự khác biệt."
+      </h2>
+      
+      <div class="milestones reveal">
+        <div class="glass-panel milestone hover-target">
+          <h3>Sự Lột Xác Về Tư Duy</h3>
+          <p>Hành trình 6 bài tập không chỉ dạy cách bấm nút, mà dạy cách tư duy hệ thống. Từ việc đặt tên file lộn xộn đến một cấu trúc dữ liệu chuẩn mực, đó là sự trưởng thành về mindset quản trị.</p>
+        </div>
+        <div class="glass-panel milestone hover-target" style="border-color: rgba(59,130,246,0.3);">
+          <h3 style="color: var(--neon-blue);">Làm Chủ Thay Vì Phụ Thuộc</h3>
+          <p>Khi hiểu sâu về Prompt Engineering, AI không còn là một "hộp đen" đáng sợ. Nó trở thành một đồng nghiệp mẫn cán, sẵn sàng thực thi ý tưởng của một Marketer chủ động.</p>
+        </div>
+        <div class="glass-panel milestone hover-target">
+          <h3>Hành Trang Tương Lai</h3>
+          <p>Portfolio này không phải là điểm kết thúc của môn học. Nó là bệ phóng đầu tiên trang bị cho tôi sự nhạy bén công nghệ để tự tin bước vào môi trường Truyền thông số chuyên nghiệp.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ─── FOOTER ─── -->
+  <!-- Footer -->
   <footer>
-    <span>© 2025 — All rights reserved</span>
-    <span class="footer-name">Lê Phương Liên</span>
-    <span>HSB · Marketing</span>
+    <div class="container">
+      <p>Thiết kế bởi <span>Lê Phương Liên</span> (25080089) — Lớp MAC 6A, HSB, ĐHQGHN.</p>
+      <p style="margin-top: 10px; opacity: 0.5;">Aurora Glassmorphism Edition • 2026</p>
+    </div>
   </footer>
 
   <script>
-    // Custom cursor
-    const cursor = document.getElementById('cursor');
-    const ring = document.getElementById('cursorRing');
-    let mx = 0, my = 0, rx = 0, ry = 0;
+    // Custom Cursor Logic
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorGlow = document.getElementById('cursor-glow');
+    let mx = 0, my = 0, dx = 0, dy = 0;
 
-    document.addEventListener('mousemove', e => {
+    document.addEventListener('mousemove', (e) => {
       mx = e.clientX; my = e.clientY;
-      cursor.style.left = mx + 'px';
-      cursor.style.top = my + 'px';
+      cursorDot.style.left = mx + 'px';
+      cursorDot.style.top = my + 'px';
     });
 
-    function animateRing() {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
-      requestAnimationFrame(animateRing);
+    function animateCursor() {
+      dx += (mx - dx) * 0.15;
+      dy += (my - dy) * 0.15;
+      cursorGlow.style.left = dx + 'px';
+      cursorGlow.style.top = dy + 'px';
+      requestAnimationFrame(animateCursor);
     }
-    animateRing();
+    animateCursor();
 
-    document.querySelectorAll('a, button, .hobby-card, .doc-card, .principle-card, .process-step, .summary-card').forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        cursor.style.width = '20px';
-        cursor.style.height = '20px';
-        ring.style.width = '56px';
-        ring.style.height = '56px';
-      });
-      el.addEventListener('mouseleave', () => {
-        cursor.style.width = '12px';
-        cursor.style.height = '12px';
-        ring.style.width = '36px';
-        ring.style.height = '36px';
-      });
+    // Scroll Navbar
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
     });
 
-    // Scroll reveal
-    const observer = new IntersectionObserver(entries => {
+    // Reveal Animations
+    const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
         if (entry.isIntersecting) {
           setTimeout(() => {
-            entry.target.classList.add('visible');
-          }, (entry.target.dataset.delay || 0));
+            entry.target.classList.add('active');
+          }, i * 150);
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-    document.querySelectorAll('.reveal').forEach((el, i) => {
-      el.dataset.delay = (i % 4) * 100;
-      observer.observe(el);
-    });
-
-    // Goal items staggered
-    const goalObs = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          document.querySelectorAll('.goal-item').forEach((item, i) => {
-            setTimeout(() => item.classList.add('visible'), i * 180);
-          });
-          goalObs.disconnect();
-        }
-      });
-    }, { threshold: 0.2 });
-
-    const goalsSection = document.querySelector('.goals-right');
-    if (goalsSection) goalObs.observe(goalsSection);
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
   </script>
 </body>
 </html>
